@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CS:GO Style Gacha - Gacha For Your Life</title>
+    <title>CS:GO Case Opening - Gacha For Your Life</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
@@ -525,7 +525,7 @@
 
     <div id="game-viewport">
 
-        <!-- MÀN HÌNH CHÍNH (TITLE SCREEN) -->
+        <!-- MÀN HÌNH CHÍNH (GIỮ NGUYÊN GIAO DIỆN HÌNH 1) -->
         <div id="screen-title">
             <svg class="sparkle-burst" style="top: 20%; left: 14%;" viewBox="0 0 100 100">
                 <polygon points="50,0 60,38 98,50 60,62 50,100 40,62 2,50 40,38" fill="#ffffff" />
@@ -552,8 +552,9 @@
                 <!-- GIAO DIỆN HÒM KHI CHƯA MỞ -->
                 <div class="case-preview-box" id="case-preview-box">
                     <div class="case-icon" id="case-icon">📦</div>
-                    <div class="case-name">NHÂN VẬT HÔM NAY</div>
+                    <div class="case-name">VŨ KHÍ ĐẶC BIỆT</div>
                     <div class="case-loot-preview" id="case-loot-preview">
+                        <!-- Các chấm màu tượng trưng cho các bậc phẩm chất trong hòm -->
                         <div class="loot-dot" style="background:#ffd700;" title="Special ★"></div>
                         <div class="loot-dot" style="background:#eb4b4b;" title="Covert"></div>
                         <div class="loot-dot" style="background:#d32ce6;" title="Classified"></div>
@@ -562,7 +563,7 @@
                     </div>
                 </div>
 
-                <!-- BĂNG CHUYỀN ROULETTE (ẨN MẶC ĐỊNH) -->
+                <!-- BĂNG CHUYỀN ROULETTE (BAN ĐẦU ĐƯỢC ẨN ĐI HOÀN TOÀN) -->
                 <div class="roulette-viewport" id="roulette-viewport">
                     <div class="center-marker"></div>
                     <div class="roulette-track" id="roulette-track"></div>
@@ -611,7 +612,7 @@
         <!-- POPUP KHO LƯU TRỮ -->
         <div class="game-modal" id="modal-inventory">
             <div class="modal-body">
-                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">🎒 KHO NHÂN VẬT CỦA BẠN</h2>
+                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">🎒 KHO VŨ KHÍ CỦA BẠN</h2>
                 <div class="cards-grid" id="inventory-grid"></div>
                 <button class="popup-btn" id="btn-close-inventory" style="width: 100%; margin-top: 15px;">Đóng</button>
             </div>
@@ -695,35 +696,6 @@
         const sound = new SoundEngine();
 
         const CSGO_POOL = [
-            { 
-                id: 1, 
-                name: "Goku Vô Cực", 
-                rarity: "Special", 
-                icon: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJncxHHPW5uz7__ZvghvdlYoNFp5V-nsMEJ8r6DLcDIA&s" style="width:100%;height:100%;object-fit:contain;">', 
-                color: "#ffd700" 
-            },
-            { 
-                id: 2, 
-                name: "Luffy Gear 5", 
-                rarity: "Special", 
-                icon: '<img src="https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/9/7/thumb-gear-5-luffy-smiling-at-kaido-during-their-fight-in-one-piece-17887764147331159654656-17887764236991564949869-116-108-837-1484-crop-17887764539941979871681.png" style="width:100%;height:100%;object-fit:contain;">', 
-                color: "#ffd700" 
-            },
-            { 
-                id: 3, 
-                name: "Zoro Asura", 
-                rarity: "Covert", 
-                icon: '<img src="https://static.wikia.nocookie.net/glad-you-came/images/a/a2/Zoro.png/revision/latest/scale-to-width-down/1000?cb=20230710081928" style="width:100%;height:100%;object-fit:contain;">', 
-                color: "#eb4b4b" 
-            },
-            { 
-                id: 4, 
-                name: "Naruto Lục Đạo", 
-                rarity: "Covert", 
-                icon: '<img src="https://i.pinimg.com/1200x/96/46/95/964695b5e97f0e4b70b303c741c7899b.jpg" style="width:100%;height:100%;object-fit:contain;">', 
-                color: "#eb4b4b" 
-            }
-        ];
             { id: 1, name: "★ Karambit Doppler", rarity: "Special", icon: "🔪", color: "#ffd700" },
             { id: 2, name: "★ Butterfly Fade", rarity: "Special", icon: "🗡️", color: "#ffd700" },
             { id: 3, name: "AK-47 Asiimov", rarity: "Covert", icon: "🔫", color: "#eb4b4b" },
@@ -822,7 +794,7 @@
 
             const winningSkin = rollWinningSkin();
             if (!winningSkin) {
-                showToast("Bạn đã mở khóa trọn bộ tất cả nhân vật!");
+                showToast("Bạn đã mở khóa trọn bộ tất cả skin!");
                 return;
             }
 
@@ -906,7 +878,7 @@
                     showRewardModal(winningSkin);
 
                     if (getAvailablePool().length === 0) {
-                        document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
+                        document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ vũ khí!";
                     }
                 }, 6100);
 
@@ -948,7 +920,7 @@
             grid.innerHTML = '';
 
             if (gameState.inventory.length === 0) {
-                grid.innerHTML = '<div style="color: #94a3b8; padding: 30px; text-align: center; width: 100%;">Kho còn trống!<br>Hãy mở hòm để nhận nhân vật.</div>';
+                grid.innerHTML = '<div style="color: #94a3b8; padding: 30px; text-align: center; width: 100%;">Kho còn trống!<br>Hãy mở hòm để nhận vũ khí.</div>';
                 return;
             }
 
@@ -968,7 +940,7 @@
             const modalInventory = document.getElementById('modal-inventory');
 
             if (getAvailablePool().length === 0) {
-                document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
+                document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ vũ khí!";
             }
 
             document.getElementById('btn-play').addEventListener('click', () => {
