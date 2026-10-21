@@ -192,7 +192,6 @@
             text-shadow: 0 2px 6px rgba(0,0,0,0.8);
         }
 
-        /* DANH SÁCH REVIEW SKIN CÓ TRONG HÒM (KHI CHƯA QUAY) */
         .case-loot-preview {
             display: flex;
             gap: 6px;
@@ -209,7 +208,7 @@
             border-radius: 4px;
         }
 
-        /* KHUNG CHỨA BĂNG CHUYỀN (ẨN MẶC ĐỊNH, CHỈ HIỆN KHI BẤM QUAY) */
+        /* KHUNG CHỨA BĂNG CHUYỀN */
         .roulette-viewport {
             position: relative;
             width: 100%;
@@ -226,7 +225,6 @@
             margin: 0;
         }
 
-        /* CLASS KHI BẮT ĐẦU MỞ HÒM SẼ BẬT KHUNG NÀY LÊN */
         .roulette-viewport.active {
             height: 150px;
             opacity: 1;
@@ -287,8 +285,20 @@
         }
 
         .cs-item-avatar {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 46px;
             filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6));
+        }
+
+        .cs-item-avatar img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            pointer-events: none;
         }
 
         .cs-item-info {
@@ -384,8 +394,8 @@
         }
 
         .reward-card {
-            width: 240px;
-            height: 310px;
+            width: 250px;
+            height: 330px;
             background: #151922;
             border-radius: 18px;
             display: flex;
@@ -403,8 +413,28 @@
             100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
-        .reward-avatar { font-size: 80px; }
-        .reward-title { font-size: 18px; font-weight: 900; text-align: center; }
+        .reward-avatar {
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .reward-avatar img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .reward-title { 
+            font-size: 18px; 
+            font-weight: 900; 
+            text-align: center; 
+        }
+
         .reward-rarity-badge {
             padding: 4px 14px;
             border-radius: 20px;
@@ -552,9 +582,8 @@
                 <!-- GIAO DIỆN HÒM KHI CHƯA MỞ -->
                 <div class="case-preview-box" id="case-preview-box">
                     <div class="case-icon" id="case-icon">📦</div>
-                    <div class="case-name">VŨ KHÍ ĐẶC BIỆT</div>
+                    <div class="case-name">NHÂN VẬT HÔM NAY</div>
                     <div class="case-loot-preview" id="case-loot-preview">
-                        <!-- Các chấm màu tượng trưng cho các bậc phẩm chất trong hòm -->
                         <div class="loot-dot" style="background:#ffd700;" title="Special ★"></div>
                         <div class="loot-dot" style="background:#eb4b4b;" title="Covert"></div>
                         <div class="loot-dot" style="background:#d32ce6;" title="Classified"></div>
@@ -585,8 +614,8 @@
             <div style="font-size: 26px; font-weight: 900; color: #ffbe1a; margin-bottom: 15px;">VẬT PHẨM MỞ ĐƯỢC!</div>
             <div class="reward-card" id="reward-card">
                 <div class="reward-rarity-badge" id="reward-rarity">Covert</div>
-                <div class="reward-avatar" id="reward-avatar">🔫</div>
-                <div class="reward-title" id="reward-title">AK-47 Asiimov</div>
+                <div class="reward-avatar" id="reward-avatar"></div>
+                <div class="reward-title" id="reward-title"></div>
             </div>
             <button class="popup-btn" id="btn-close-result">Xác Nhận</button>
         </div>
@@ -612,7 +641,7 @@
         <!-- POPUP KHO LƯU TRỮ -->
         <div class="game-modal" id="modal-inventory">
             <div class="modal-body">
-                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">🎒 KHO VŨ KHÍ CỦA BẠN</h2>
+                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">🎒 KHO NHÂN VẬT CỦA BẠN</h2>
                 <div class="cards-grid" id="inventory-grid"></div>
                 <button class="popup-btn" id="btn-close-inventory" style="width: 100%; margin-top: 15px;">Đóng</button>
             </div>
@@ -700,28 +729,28 @@
                 id: 1, 
                 name: "Goku Vô Cực", 
                 rarity: "Special", 
-                icon: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJncxHHPW5uz7__ZvghvdlYoNFp5V-nsMEJ8r6DLcDIA&s" style="width:100%;height:100%;object-fit:contain;">', 
+                icon: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJncxHHPW5uz7__ZvghvdlYoNFp5V-nsMEJ8r6DLcDIA&s">', 
                 color: "#ffd700" 
             },
             { 
                 id: 2, 
                 name: "Luffy Gear 5", 
                 rarity: "Special", 
-                icon: '<img src="https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/9/7/thumb-gear-5-luffy-smiling-at-kaido-during-their-fight-in-one-piece-17887764147331159654656-17887764236991564949869-116-108-837-1484-crop-17887764539941979871681.png" style="width:100%;height:100%;object-fit:contain;">', 
+                icon: '<img src="https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/9/7/thumb-gear-5-luffy-smiling-at-kaido-during-their-fight-in-one-piece-17887764147331159654656-17887764236991564949869-116-108-837-1484-crop-17887764539941979871681.png">', 
                 color: "#ffd700" 
             },
             { 
                 id: 3, 
                 name: "Zoro Asura", 
                 rarity: "Covert", 
-                icon: '<img src="https://static.wikia.nocookie.net/glad-you-came/images/a/a2/Zoro.png/revision/latest/scale-to-width-down/1000?cb=20230710081928" style="width:100%;height:100%;object-fit:contain;">', 
+                icon: '<img src="https://static.wikia.nocookie.net/glad-you-came/images/a/a2/Zoro.png/revision/latest/scale-to-width-down/1000?cb=20230710081928">', 
                 color: "#eb4b4b" 
             },
             { 
                 id: 4, 
                 name: "Naruto Lục Đạo", 
                 rarity: "Covert", 
-                icon: '<img src="https://i.pinimg.com/1200x/96/46/95/964695b5e97f0e4b70b303c741c7899b.jpg" style="width:100%;height:100%;object-fit:contain;">', 
+                icon: '<img src="https://i.pinimg.com/1200x/96/46/95/964695b5e97f0e4b70b303c741c7899b.jpg">', 
                 color: "#eb4b4b" 
             }
         ];
@@ -729,7 +758,7 @@
         let gameState = { inventory: [] };
         let isSpinning = false;
         const ITEM_CARD_WIDTH = 138;
-        const WINNING_INDEX = 48; // Vị trí thẻ trúng thưởng ẩn trong băng chuyền
+        const WINNING_INDEX = 48;
 
         function loadData() {
             try {
@@ -769,23 +798,14 @@
 
             const special = available.filter(i => i.rarity === "Special");
             const covert = available.filter(i => i.rarity === "Covert");
-            const classified = available.filter(i => i.rarity === "Classified");
-            const restricted = available.filter(i => i.rarity === "Restricted");
-            const milspec = available.filter(i => i.rarity === "Mil-Spec");
 
             const rand = Math.random() * 100;
             let pool = [];
 
-            if (rand <= 1 && special.length > 0) {
+            if (rand <= 10 && special.length > 0) {
                 pool = special;
-            } else if (rand <= 6 && covert.length > 0) {
+            } else if (covert.length > 0) {
                 pool = covert;
-            } else if (rand <= 20 && classified.length > 0) {
-                pool = classified;
-            } else if (rand <= 50 && restricted.length > 0) {
-                pool = restricted;
-            } else if (milspec.length > 0) {
-                pool = milspec;
             } else {
                 pool = available;
             }
@@ -806,13 +826,12 @@
             return div;
         }
 
-        // BẮT ĐẦU MỞ HÒM
         function startCaseOpening() {
             if (isSpinning) return;
 
             const winningSkin = rollWinningSkin();
             if (!winningSkin) {
-                showToast("Bạn đã mở khóa trọn bộ tất cả skin!");
+                showToast("Bạn đã mở khóa trọn bộ tất cả nhân vật!");
                 return;
             }
 
@@ -824,18 +843,15 @@
             const rouletteViewport = document.getElementById('roulette-viewport');
             const track = document.getElementById('roulette-track');
 
-            // 1. Hiệu ứng lắc chiếc hòm ban đầu
             caseIcon.classList.add('case-shaking');
 
             setTimeout(() => {
                 caseIcon.classList.remove('case-shaking');
-                caseIcon.textContent = "🔓"; // Hòm mở nắp
+                caseIcon.textContent = "🔓";
                 caseBox.classList.add('spinning-mode');
 
-                // 2. Kích hoạt xuất hiện băng chuyền
                 rouletteViewport.classList.add('active');
 
-                // Sinh dải vật phẩm bí mật ngay khi bấm mở
                 track.innerHTML = '';
                 track.style.transition = 'none';
                 track.style.transform = 'translateX(0px)';
@@ -850,7 +866,6 @@
                     }
                 }
 
-                // 3. Tính toán tọa độ dừng chính xác
                 const viewportWidth = rouletteViewport.offsetWidth;
                 const randomOffset = Math.floor(Math.random() * 64) - 32;
                 const targetX = -((WINNING_INDEX * ITEM_CARD_WIDTH) + (ITEM_CARD_WIDTH / 2) - (viewportWidth / 2) + randomOffset);
@@ -877,14 +892,12 @@
                     }
                 }
 
-                // Bắt đầu trượt băng chuyền
                 setTimeout(() => {
                     requestAnimationFrame(trackTicker);
                     track.style.transition = 'transform 5.8s cubic-bezier(0.12, 0.8, 0.25, 1)';
                     track.style.transform = `translateX(${targetX}px)`;
                 }, 80);
 
-                // Dừng lại và trao thưởng
                 setTimeout(() => {
                     isSpinning = false;
                     document.getElementById('btn-open-case').disabled = false;
@@ -896,14 +909,13 @@
                     showRewardModal(winningSkin);
 
                     if (getAvailablePool().length === 0) {
-                        document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ vũ khí!";
+                        document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
                     }
                 }, 6100);
 
             }, 450);
         }
 
-        // ĐẶT LẠI TRẠNG THÁI HÒM ĐÓNG BAN ĐẦU
         function resetCaseView() {
             const rouletteViewport = document.getElementById('roulette-viewport');
             const caseBox = document.getElementById('case-preview-box');
@@ -926,7 +938,8 @@
             card.style.borderColor = item.color;
             card.style.boxShadow = `0 0 25px ${item.color}66`;
 
-            document.getElementById('reward-avatar').textContent = item.icon;
+            // Dùng innerHTML để hiển thị ảnh chuẩn xác
+            document.getElementById('reward-avatar').innerHTML = item.icon;
             document.getElementById('reward-title').textContent = item.name;
             document.getElementById('reward-title').style.color = item.color;
 
@@ -938,7 +951,7 @@
             grid.innerHTML = '';
 
             if (gameState.inventory.length === 0) {
-                grid.innerHTML = '<div style="color: #94a3b8; padding: 30px; text-align: center; width: 100%;">Kho còn trống!<br>Hãy mở hòm để nhận vũ khí.</div>';
+                grid.innerHTML = '<div style="color: #94a3b8; padding: 30px; text-align: center; width: 100%;">Kho còn trống!<br>Hãy mở hòm để nhận nhân vật.</div>';
                 return;
             }
 
@@ -958,7 +971,7 @@
             const modalInventory = document.getElementById('modal-inventory');
 
             if (getAvailablePool().length === 0) {
-                document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ vũ khí!";
+                document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
             }
 
             document.getElementById('btn-play').addEventListener('click', () => {
@@ -980,7 +993,6 @@
                 startCaseOpening();
             });
 
-            // Sau khi bấm nhận quà: Đóng popup và thu băng chuyền lại
             document.getElementById('btn-close-result').addEventListener('click', () => {
                 sound.playPop();
                 modalResult.style.display = 'none';
