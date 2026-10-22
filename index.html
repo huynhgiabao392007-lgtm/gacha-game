@@ -60,26 +60,27 @@
             100% { opacity: 0.3; transform: scale(0.7) rotate(90deg); }
         }
 
-        /* ĐIỀU CHỈNH LỚP CHỨA NÚT ÔM VỪA KHÍT NÚT TRÊN ẢNH NỀN */
+        /* ĐIỀU CHỈNH CHUẨN XÁC TỪNG TỌA ĐỘ VÀ KÍCH THƯỚC */
         .menu-buttons-layer {
             position: absolute;
-            top: 57.5%;              /* Căn từ đỉnh xuống để cố định chính xác vị trí nút Play */
+            top: 58.2%;              /* Đưa mép trên của nút Play trùng khớp với nút */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
-            gap: 17px;               /* Khoảng cách khe giữa 2 nút Play và Settings */
-            width: 48%;              /* Thu gọn bề ngang vừa sát cạnh ngoài viền đen */
+            gap: 1.8%;               /* Giảm khoảng cách để nút Settings không bị tụt xuống đáy */
+            width: 53.6%;            /* Mở rộng bề ngang để ôm trọn cả 2 bên viền */
+            height: 25.5%;           /* Khóa trọn vẹn cụm 2 nút */
             z-index: 20;
         }
 
         .interactive-btn {
             position: relative;
             width: 100%;
-            height: 74px;            /* Chiều cao bao phủ vừa vặn cả bóng đổ đáy của nút */
+            height: 44.5%;           /* Chiều cao tính theo % của khung, ôm khít độ dày nút */
             background: transparent;
             border: 4px solid transparent;
-            border-radius: 22px;     /* Độ cong chuẩn khớp với góc bo của nút */
+            border-radius: 17px;     /* Bo góc 17px chuẩn xác với mép viền bo gốc */
             cursor: pointer;
             outline: none;
             -webkit-tap-highlight-color: transparent;
