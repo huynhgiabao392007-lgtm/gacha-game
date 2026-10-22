@@ -60,52 +60,51 @@
             100% { opacity: 0.3; transform: scale(0.7) rotate(90deg); }
         }
 
+        /* ĐIỀU CHỈNH LỚP CHỨA NÚT ÔM VỪA KHỚP ẢNH */
         .menu-buttons-layer {
             position: absolute;
-            bottom: 16%;
+            bottom: 16.2%;           /* Căn chuẩn độ cao so với đáy */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            width: 72%;
+            gap: 23px;               /* Khoảng cách giữa nút Play và Settings */
+            width: 58%;              /* Thu gọn từ 72% xuống 58% để không bị bè sang 2 bên */
             z-index: 20;
         }
 
-        /* NÚT VÀ HIỆU ỨNG VIỀN NHẤP NHÁY VÀNG - TÍM */
         .interactive-btn {
             position: relative;
             width: 100%;
-            height: 64px;
+            height: 70px;            /* Chiều cao khớp trọn vẹn với nút vàng */
             background: transparent;
             border: 4px solid transparent;
-            border-radius: 26px;
+            border-radius: 18px;     /* Bo góc 18px đúng chuẩn dáng nút bo gốc */
             cursor: pointer;
             outline: none;
             -webkit-tap-highlight-color: transparent;
-            transition: transform 0.08s ease, filter 0.08s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+            transition: transform 0.08s ease, filter 0.08s ease;
         }
 
-        /* Khi click giữ chuột (:active) hoặc khi hover chuột qua nút */
+        /* Khi click, chạm hoặc giữ chuột */
         .interactive-btn:active,
         .interactive-btn:hover {
-            animation: flashBorderYellowPurple 0.4s infinite alternate ease-in-out;
+            animation: flashBorderYellowPurple 0.35s infinite alternate ease-in-out;
         }
 
         .interactive-btn:active {
-            transform: scale(0.97) translateY(2px);
-            filter: brightness(1.05);
+            transform: scale(0.98);
         }
 
-        /* Animation luân phiên giữa Vàng rực (#ffd000) và Tím Neon (#b829e3) */
+        /* Animation luân phiên Vàng - Tím */
         @keyframes flashBorderYellowPurple {
             0% {
-                border-color: #ffd000;
-                box-shadow: 0 0 16px rgba(255, 208, 0, 0.95), inset 0 0 10px rgba(255, 208, 0, 0.4);
+                border-color: #ffe600;
+                box-shadow: 0 0 14px rgba(255, 230, 0, 0.95), inset 0 0 8px rgba(255, 230, 0, 0.45);
             }
             100% {
                 border-color: #d924f7;
-                box-shadow: 0 0 18px rgba(217, 36, 247, 0.95), inset 0 0 10px rgba(217, 36, 247, 0.4);
+                box-shadow: 0 0 16px rgba(217, 36, 247, 0.95), inset 0 0 8px rgba(217, 36, 247, 0.45);
             }
         }
 
