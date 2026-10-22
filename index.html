@@ -60,52 +60,50 @@
             100% { opacity: 0.3; transform: scale(0.7) rotate(90deg); }
         }
 
-        /* ĐIỀU CHỈNH CHUẨN XÁC TỪNG TỌA ĐỘ VÀ KÍCH THƯỚC */
         .menu-buttons-layer {
             position: absolute;
-            top: 58.2%;              /* Đưa mép trên của nút Play trùng khớp với nút */
+            bottom: 16%;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
-            gap: 15px;               /* Giảm khoảng cách để nút Settings không bị tụt xuống đáy */
-            width: 42.6%;            /* Mở rộng bề ngang để ôm trọn cả 2 bên viền */
-            height: 25.5%;           /* Khóa trọn vẹn cụm 2 nút */
+            gap: 20px;
+            width: 72%;
             z-index: 20;
         }
 
+        /* NÚT VÀ HIỆU ỨNG VIỀN NHẤP NHÁY VÀNG - TÍM */
         .interactive-btn {
             position: relative;
             width: 100%;
-            height: 72px;           /* Chiều cao tính theo % của khung, ôm khít độ dày nút */
+            height: 64px;
             background: transparent;
-            border: 4.5px solid transparent;
-            border-radius: 20px;     /* Bo góc 17px chuẩn xác với mép viền bo gốc */
+            border: 4px solid transparent;
+            border-radius: 26px;
             cursor: pointer;
             outline: none;
             -webkit-tap-highlight-color: transparent;
-            transition: transform 0.08s ease, filter 0.08s ease;
+            transition: transform 0.08s ease, filter 0.08s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        /* Khi click giữ chuột (:active) hoặc hover chuột */
         .interactive-btn:active,
         .interactive-btn:hover {
-            animation: flashBorderYellowPurple 0.35s infinite alternate ease-in-out;
+            animation: flashBorderYellowPurple 0.4s infinite alternate ease-in-out;
         }
 
         .interactive-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97) translateY(2px);
+            filter: brightness(1.05);
         }
 
-        /* Animation luân phiên Vàng - Tím */
         @keyframes flashBorderYellowPurple {
             0% {
-                border-color: #ffe600;
-                box-shadow: 0 0 14px rgba(255, 230, 0, 0.95), inset 0 0 8px rgba(255, 230, 0, 0.45);
+                border-color: #ffd000;
+                box-shadow: 0 0 16px rgba(255, 208, 0, 0.95), inset 0 0 10px rgba(255, 208, 0, 0.4);
             }
             100% {
                 border-color: #d924f7;
-                box-shadow: 0 0 16px rgba(217, 36, 247, 0.95), inset 0 0 8px rgba(217, 36, 247, 0.45);
+                box-shadow: 0 0 18px rgba(217, 36, 247, 0.95), inset 0 0 10px rgba(217, 36, 247, 0.4);
             }
         }
 
@@ -304,12 +302,12 @@
         }
 
         .cs-item-avatar {
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 46px;
+            font-size: 42px;
             filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6));
         }
 
@@ -324,6 +322,9 @@
             width: 100%;
             text-align: center;
             z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .cs-item-name {
@@ -333,6 +334,15 @@
             overflow: hidden;
             text-overflow: ellipsis;
             color: #d1d5db;
+        }
+
+        .cs-item-sub {
+            font-size: 9px;
+            font-weight: 700;
+            color: #94a3b8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .cs-rarity-bar {
@@ -413,8 +423,8 @@
         }
 
         .reward-card {
-            width: 250px;
-            height: 330px;
+            width: 260px;
+            height: 350px;
             background: #151922;
             border-radius: 18px;
             display: flex;
@@ -433,8 +443,8 @@
         }
 
         .reward-avatar {
-            width: 140px;
-            height: 140px;
+            width: 135px;
+            height: 135px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -448,10 +458,26 @@
             border-radius: 8px;
         }
 
+        .reward-info-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+        }
+
         .reward-title { 
-            font-size: 18px; 
+            font-size: 20px; 
             font-weight: 900; 
             text-align: center; 
+        }
+
+        .reward-sub {
+            font-size: 13px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-align: center;
+            letter-spacing: 0.5px;
         }
 
         .reward-rarity-badge {
@@ -574,7 +600,7 @@
 
     <div id="game-viewport">
 
-        <!-- MÀN HÌNH CHÍNH (GIỮ NGUYÊN GIAO DIỆN HÌNH 1) -->
+        <!-- MÀN HÌNH CHÍNH -->
         <div id="screen-title">
             <svg class="sparkle-burst" style="top: 20%; left: 14%;" viewBox="0 0 100 100">
                 <polygon points="50,0 60,38 98,50 60,62 50,100 40,62 2,50 40,38" fill="#ffffff" />
@@ -611,7 +637,7 @@
                     </div>
                 </div>
 
-                <!-- BĂNG CHUYỀN ROULETTE (BAN ĐẦU ĐƯỢC ẨN ĐI HOÀN TOÀN) -->
+                <!-- BĂNG CHUYỀN ROULETTE -->
                 <div class="roulette-viewport" id="roulette-viewport">
                     <div class="center-marker"></div>
                     <div class="roulette-track" id="roulette-track"></div>
@@ -628,13 +654,17 @@
             </div>
         </div>
 
-        <!-- POPUP NHẬN THƯỞNG -->
+        <!-- POPUP NHẬN THƯỞNG KHI MỞ TRÚNG -->
         <div id="modal-result">
             <div style="font-size: 26px; font-weight: 900; color: #ffbe1a; margin-bottom: 15px;">VẬT PHẨM MỞ ĐƯỢC!</div>
             <div class="reward-card" id="reward-card">
                 <div class="reward-rarity-badge" id="reward-rarity">Covert</div>
                 <div class="reward-avatar" id="reward-avatar"></div>
-                <div class="reward-title" id="reward-title"></div>
+                <div class="reward-info-block">
+                    <div class="reward-title" id="reward-title"></div>
+                    <!-- DÒNG PHỤ Ở ĐÂY -->
+                    <div class="reward-sub" id="reward-sub"></div>
+                </div>
             </div>
             <button class="popup-btn" id="btn-close-result">Xác Nhận</button>
         </div>
@@ -743,37 +773,38 @@
 
         const sound = new SoundEngine();
 
+        // Danh sách nhân vật có thêm trường "sub" hiển thị dòng phụ
         const CSGO_POOL = [
             { 
                 id: 1, 
-                name: "Lucy Foxx",
-                subtitle: "She Likes A Big Load" 
+                name: "Goku Vô Cực", 
+                sub: "Dragon Ball Super",
                 rarity: "Special", 
-                icon: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTear16tneHpPx6ENuOh579CihpXyQe_bX_0pcO-eCOIQnGVRDpOFepv5Cm&s=10">', 
+                icon: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJncxHHPW5uz7__ZvghvdlYoNFp5V-nsMEJ8r6DLcDIA&s">', 
                 color: "#ffd700" 
             },
             { 
                 id: 2, 
-                name: "Sweetie Fox",
-                subtitle: "Hot fucking with busty sweetie fox after playing minecraft HD" 
+                name: "Luffy Gear 5", 
+                sub: "Arc Wano Kuni",
                 rarity: "Special", 
-                icon: '<img src="https://i.pinimg.com/736x/31/78/3e/31783e8dc1675bb4c7c0eaf255a433b1.jpg">', 
+                icon: '<img src="https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/9/7/thumb-gear-5-luffy-smiling-at-kaido-during-their-fight-in-one-piece-17887764147331159654656-17887764236991564949869-116-108-837-1484-crop-17887764539941979871681.png">', 
                 color: "#ffd700" 
             },
             { 
                 id: 3, 
-                name: "Comatozze",
-                subtitle:"I met porn star Comatozze on the street" 
+                name: "Zoro Asura", 
+                sub: "Vol. 102 - Chapter 1033",
                 rarity: "Covert", 
-                icon: '<img src="https://t.fapcat.com/contents/videos_screenshots/2590000/2590206/preview.jpg">', 
+                icon: '<img src="https://static.wikia.nocookie.net/glad-you-came/images/a/a2/Zoro.png/revision/latest/scale-to-width-down/1000?cb=20230710081928">', 
                 color: "#eb4b4b" 
             },
             { 
                 id: 4, 
-                name: "Belle Delphine", 
-                subtitle:"Kidnapping and Fuking in the forest"
+                name: "Naruto Lục Đạo", 
+                sub: "Vol 4. Chapter 3",
                 rarity: "Covert", 
-                icon: '<img src="https://fuskator.me/uploads/posts/2022-06/1656527906_5-fuskator-me-p-belle-delphine-in-the-woods-porn-6.jpg">', 
+                icon: '<img src="https://i.pinimg.com/1200x/96/46/95/964695b5e97f0e4b70b303c741c7899b.jpg">', 
                 color: "#eb4b4b" 
             }
         ];
@@ -843,6 +874,7 @@
                 <div class="cs-item-avatar">${item.icon}</div>
                 <div class="cs-item-info">
                     <div class="cs-item-name">${item.name}</div>
+                    <div class="cs-item-sub">${item.sub || ''}</div>
                 </div>
                 <div class="cs-rarity-bar"></div>
             `;
@@ -953,6 +985,7 @@
             const modal = document.getElementById('modal-result');
             const card = document.getElementById('reward-card');
             const badge = document.getElementById('reward-rarity');
+            const sub = document.getElementById('reward-sub');
 
             badge.textContent = item.rarity;
             badge.style.background = item.color;
@@ -964,6 +997,9 @@
             document.getElementById('reward-avatar').innerHTML = item.icon;
             document.getElementById('reward-title').textContent = item.name;
             document.getElementById('reward-title').style.color = item.color;
+
+            // Hiển thị dòng phụ ở dưới tên
+            sub.textContent = item.sub || '';
 
             modal.style.display = 'flex';
         }
