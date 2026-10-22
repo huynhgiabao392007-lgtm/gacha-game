@@ -62,31 +62,30 @@
 
         .menu-buttons-layer {
             position: absolute;
-            top: 57.5%;              /* Căn từ đỉnh xuống để cố định chính xác vị trí nút Play */
+            top: 58.2%;              /* Căn mép trên trùng khớp nút Play */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
-            gap: 17px;               /* Khoảng cách khe giữa 2 nút Play và Settings */
-            width: 48%;              /* Thu gọn bề ngang vừa sát cạnh ngoài viền đen */
+            gap: 18px;               /* Dùng px cố định để đẩy nút Settings xuống đúng vị trí */
+            width: 44.5%;            /* Mở rộng nhẹ bề ngang để mép trái phải khít viền đen */
             z-index: 20;
         }
 
-        /* NÚT VÀ HIỆU ỨNG VIỀN NHẤP NHÁY VÀNG - TÍM */
         .interactive-btn {
-            pposition: relative;
+            position: relative;
             width: 100%;
-            height: 74px;            /* Chiều cao bao phủ vừa vặn cả bóng đổ đáy của nút */
+            height: 72px;            /* Chiều cao bao trọn cả mặt nút lẫn viền đen */
             background: transparent;
-            border: 4px solid transparent;
-            border-radius: 22px;     /* Độ cong chuẩn khớp với góc bo của nút */
+            border: 4.5px solid transparent;
+            border-radius: 20px;     /* Bo góc 20px ôm khít đường cong */
             cursor: pointer;
             outline: none;
             -webkit-tap-highlight-color: transparent;
             transition: transform 0.08s ease, filter 0.08s ease;
         }
 
-       /* Khi click giữ chuột (:active) hoặc hover chuột */
+        /* Khi click giữ chuột (:active) hoặc hover chuột */
         .interactive-btn:active,
         .interactive-btn:hover {
             animation: flashBorderYellowPurple 0.35s infinite alternate ease-in-out;
