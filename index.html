@@ -72,20 +72,41 @@
             z-index: 20;
         }
 
+        /* NÚT VÀ HIỆU ỨNG VIỀN NHẤP NHÁY VÀNG - TÍM */
         .interactive-btn {
             position: relative;
             width: 100%;
             height: 64px;
             background: transparent;
-            border: none;
-            border-radius: 20px;
+            border: 4px solid transparent;
+            border-radius: 26px;
             cursor: pointer;
             outline: none;
-            transition: transform 0.08s ease, filter 0.08s ease;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.08s ease, filter 0.08s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
+
+        /* Khi click giữ chuột (:active) hoặc khi hover chuột qua nút */
+        .interactive-btn:active,
+        .interactive-btn:hover {
+            animation: flashBorderYellowPurple 0.4s infinite alternate ease-in-out;
+        }
+
         .interactive-btn:active {
-            transform: scale(0.96) translateY(3px);
-            filter: brightness(0.9);
+            transform: scale(0.97) translateY(2px);
+            filter: brightness(1.05);
+        }
+
+        /* Animation luân phiên giữa Vàng rực (#ffd000) và Tím Neon (#b829e3) */
+        @keyframes flashBorderYellowPurple {
+            0% {
+                border-color: #ffd000;
+                box-shadow: 0 0 16px rgba(255, 208, 0, 0.95), inset 0 0 10px rgba(255, 208, 0, 0.4);
+            }
+            100% {
+                border-color: #d924f7;
+                box-shadow: 0 0 18px rgba(217, 36, 247, 0.95), inset 0 0 10px rgba(217, 36, 247, 0.4);
+            }
         }
 
         /* 2. MÀN HÌNH MỞ HÒM CS:GO */
@@ -148,7 +169,6 @@
             width: 100%;
         }
 
-        /* KHU VỰC CHIẾC HÒM KHI CHƯA MỞ */
         .case-preview-box {
             display: flex;
             flex-direction: column;
@@ -208,7 +228,6 @@
             border-radius: 4px;
         }
 
-        /* KHUNG CHỨA BĂNG CHUYỀN */
         .roulette-viewport {
             position: relative;
             width: 100%;
@@ -938,7 +957,6 @@
             card.style.borderColor = item.color;
             card.style.boxShadow = `0 0 25px ${item.color}66`;
 
-            // Dùng innerHTML để hiển thị ảnh chuẩn xác
             document.getElementById('reward-avatar').innerHTML = item.icon;
             document.getElementById('reward-title').textContent = item.name;
             document.getElementById('reward-title').style.color = item.color;
