@@ -40,9 +40,7 @@
             background: #141721;
         }
 
-        /* ==========================================
-           CÁC BẢNG THÔNG BÁO MỞ ĐẦU (INTRO & CẢNH BÁO)
-           ========================================== */
+        /* THÔNG BÁO BAN ĐẦU */
         .startup-overlay {
             position: absolute;
             inset: 0;
@@ -168,16 +166,15 @@
             100% { opacity: 0.3; transform: scale(0.7) rotate(90deg); }
         }
 
-        /* KHU VỰC NÚT BẤM CĂN CHỈNH TUYỆT ĐỐI THEO TỈ LỆ ẢNH NỀN */
         .interactive-btn {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
             width: 41.5%;
-            height: 68px;              /* Chiều cao khớp trọn nút vàng */
+            height: 68px;
             background: transparent;
             border: 4px solid transparent;
-            border-radius: 20px;         /* Góc bo ôm trọn mép nút */
+            border-radius: 20px;
             cursor: pointer;
             outline: none;
             -webkit-tap-highlight-color: transparent;
@@ -185,34 +182,32 @@
             transition: transform 0.08s ease, filter 0.08s ease;
         }
 
-        /* Tọa độ nút Play khớp chính xác trên hình ảnh */
         #btn-play {
             top: 58.5%;
         }
 
-        /* Tọa độ nút Settings khớp chính xác trên hình ảnh */
         #btn-settings {
             top: 71.5%;
         }
 
-        /* Nút Tạo Tài Khoản nằm dưới nút Settings */
         #btn-account {
             top: 84.5%;
-            background: linear-gradient(180deg, rgba(30, 36, 51, 0.9) 0%, rgba(15, 18, 25, 0.95) 100%);
+            background: linear-gradient(180deg, rgba(30, 36, 51, 0.92) 0%, rgba(15, 18, 25, 0.95) 100%);
             border: 3px solid #e5a93b;
             color: #ffd000;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 900;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             text-shadow: 0 2px 4px rgba(0,0,0,0.9);
         }
 
-        /* Hiệu ứng viền vàng tím khi hover / click */
         .interactive-btn:active,
         .interactive-btn:hover {
             animation: flashBorderYellowPurple 0.4s infinite alternate ease-in-out;
@@ -537,7 +532,7 @@
             transform: none;
         }
 
-        /* MODAL KẾT QUẢ KHI MỞ TRÚNG */
+        /* MODAL KẾT QUẢ */
         #modal-result {
             position: absolute;
             inset: 0;
@@ -636,7 +631,7 @@
             box-shadow: 0 2px 0 #000;
         }
 
-        /* MODAL KHO ĐỒ, CÀI ĐẶT & TẠO TÀI KHOẢN */
+        /* MODAL KHO ĐỒ, CÀI ĐẶT & TÀI KHOẢN */
         .game-modal {
             position: absolute;
             inset: 0;
@@ -713,12 +708,41 @@
             cursor: pointer;
         }
 
-        /* FORM INPUT TẠO TÀI KHOẢN */
+        /* GIAO DIỆN TAB AUTH */
+        .auth-tabs {
+            display: flex;
+            gap: 6px;
+            background: #0d111a;
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            border: 1px solid #334155;
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            padding: 9px 4px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .auth-tab-btn.active {
+            background: linear-gradient(180deg, #ffd34d 0%, #f7b300 100%);
+            color: #111;
+            box-shadow: 0 2px 8px rgba(247, 179, 0, 0.4);
+        }
+
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-bottom: 14px;
+            gap: 5px;
+            margin-bottom: 12px;
             text-align: left;
         }
 
@@ -730,7 +754,7 @@
 
         .form-input {
             width: 100%;
-            padding: 11px 14px;
+            padding: 10px 14px;
             background: #0f141e;
             border: 2px solid #334155;
             border-radius: 12px;
@@ -750,6 +774,15 @@
             color: #94a3b8;
             font-weight: 700;
             line-height: 1.4;
+        }
+
+        .user-status-card {
+            background: #10141f;
+            border: 2px solid #22c55e;
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            margin-bottom: 14px;
         }
 
         #toast {
@@ -779,7 +812,7 @@
             .btn-cs-open { height: 48px !important; font-size: 17px !important; }
             .reward-card { height: 290px !important; }
             .reward-avatar { width: 100px !important; height: 100px !important; }
-            #btn-account { font-size: 13px !important; }
+            #btn-account { font-size: 11.5px !important; }
         }
     </style>
 </head>
@@ -787,7 +820,7 @@
 
     <div id="game-viewport">
 
-        <!-- BƯỚC 1: BẢNG NHỎ CHẠY 5 GIÂY KHI VỪA VÀO WEB -->
+        <!-- BƯỚC 1: BẢNG NHỎ CHẠY 5 GIÂY -->
         <div class="startup-overlay" id="overlay-account-tip">
             <div class="startup-box">
                 <div class="startup-icon">👤</div>
@@ -802,7 +835,7 @@
             </div>
         </div>
 
-        <!-- BƯỚC 2: BẢNG CẢNH BÁO & XÁC NHẬN 18+ -->
+        <!-- BƯỚC 2: CẢNH BÁO 18+ -->
         <div class="startup-overlay" id="overlay-warning-18" style="display: none;">
             <div class="startup-box" style="border-color: #ef4444;">
                 <div class="startup-icon">⚠️</div>
@@ -816,7 +849,7 @@
             </div>
         </div>
 
-        <!-- MÀN HÌNH CHÍNH (TITLE SCREEN) -->
+        <!-- MÀN HÌNH CHÍNH -->
         <div id="screen-title">
             <svg class="sparkle-burst" style="top: 20%; left: 14%;" viewBox="0 0 100 100">
                 <polygon points="50,0 60,38 98,50 60,62 50,100 40,62 2,50 40,38" fill="#ffffff" />
@@ -825,17 +858,15 @@
                 <polygon points="50,0 60,38 98,50 60,62 50,100 40,62 2,50 40,38" fill="#ffffff" />
             </svg>
 
-            <!-- CÁC NÚT ĐIỀU HƯỚNG MÀN HÌNH CHÍNH -->
             <button class="interactive-btn" id="btn-play" aria-label="Play"></button>
             <button class="interactive-btn" id="btn-settings" aria-label="Settings"></button>
             
-            <!-- NÚT TẠO TÀI KHOẢN (NẰM DƯỚI SETTINGS, CÙNG KÍCH THƯỚC VÀ HIỆU ỨNG) -->
             <button class="interactive-btn" id="btn-account">
-                <span>📝 TẠO TÀI KHOẢN</span>
+                <span id="account-btn-label">TÀI KHOẢN / ĐĂNG NHẬP</span>
             </button>
         </div>
 
-        <!-- MÀN HÌNH GACHA CS:GO -->
+        <!-- MÀN HÌNH GAME GACHA -->
         <div id="screen-game">
             <div class="hud-header">
                 <button class="btn-icon" id="btn-back">⬅</button>
@@ -872,30 +903,67 @@
             </div>
         </div>
 
-        <!-- POPUP TẠO TÀI KHOẢN -->
+        <!-- MODAL TÀI KHOẢN -->
         <div class="game-modal" id="modal-account">
-            <div class="modal-body" style="max-width: 380px;">
-                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 14px;">TẠO TÀI KHOẢN</h2>
+            <div class="modal-body" style="max-width: 390px;">
+                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">TRUNG TÂM TÀI KHOẢN</h2>
                 
-                <div class="form-group">
-                    <label for="acc-username">Tên tài khoản</label>
-                    <input type="text" class="form-input" id="acc-username" placeholder="Nhập tên tài khoản bất kỳ..." autocomplete="off">
+                <!-- KHI ĐÃ ĐĂNG NHẬP -->
+                <div id="auth-panel-logged" style="display: none;">
+                    <div class="user-status-card">
+                        <div style="font-size: 13px; color: #94a3b8; margin-bottom: 4px;">Đang đăng nhập với:</div>
+                        <div id="logged-username" style="font-size: 18px; font-weight: 900; color: #4ade80;"></div>
+                        <div style="font-size: 12px; color: #cbd5e1; margin-top: 6px;">Kho đồ của bạn đang được lưu trữ an toàn vĩnh viễn!</div>
+                    </div>
+                    <button class="btn-small-danger" id="btn-logout" style="width: 100%; padding: 10px; font-size: 14px; margin-bottom: 10px;">Đăng Xuất</button>
+                    <button class="popup-btn btn-close-auth" style="width: 100%; margin-top: 0; font-size: 15px; background: #475569; border-color: #334155;">Đóng</button>
                 </div>
 
-                <div class="form-group">
-                    <label for="acc-password">Mật khẩu</label>
-                    <input type="password" class="form-input" id="acc-password" placeholder="Tối thiểu 8 chữ hoặc số...">
-                    <div class="form-note">* Mật khẩu tối thiểu 8 ký tự, chỉ gồm chữ cái và số (không chứa ký tự đặc biệt).</div>
+                <!-- KHI CHƯA ĐĂNG NHẬP -->
+                <div id="auth-panel-forms">
+                    <div class="auth-tabs">
+                        <button class="auth-tab-btn active" id="tab-btn-login">ĐĂNG NHẬP</button>
+                        <button class="auth-tab-btn" id="tab-btn-register">TẠO TÀI KHOẢN</button>
+                    </div>
+
+                    <!-- TAB LOGIN -->
+                    <div id="auth-panel-login">
+                        <div class="form-group">
+                            <label for="login-username">Tên tài khoản</label>
+                            <input type="text" class="form-input" id="login-username" placeholder="Nhập tên tài khoản..." autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Mật khẩu</label>
+                            <input type="password" class="form-input" id="login-password" placeholder="Nhập mật khẩu...">
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 14px;">
+                            <button class="popup-btn" id="btn-submit-login" style="flex: 1; width: auto; margin-top: 0; font-size: 15px;">Đăng Nhập</button>
+                            <button class="popup-btn btn-close-auth" style="flex: 1; width: auto; margin-top: 0; font-size: 15px; background: #475569; border-color: #334155;">Đóng</button>
+                        </div>
+                    </div>
+
+                    <!-- TAB REGISTER -->
+                    <div id="auth-panel-register" style="display: none;">
+                        <div class="form-group">
+                            <label for="reg-username">Tên tài khoản</label>
+                            <input type="text" class="form-input" id="reg-username" placeholder="Tên tài khoản bất kỳ..." autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Mật khẩu</label>
+                            <input type="password" class="form-input" id="reg-password" placeholder="Tối thiểu 8 chữ hoặc số...">
+                            <div class="form-note">* Mật khẩu tối thiểu 8 ký tự, chỉ gồm chữ cái và số (không có ký tự đặc biệt).</div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 14px;">
+                            <button class="popup-btn" id="btn-submit-register" style="flex: 1; width: auto; margin-top: 0; font-size: 15px;">Tạo Tài Khoản</button>
+                            <button class="popup-btn btn-close-auth" style="flex: 1; width: auto; margin-top: 0; font-size: 15px; background: #475569; border-color: #334155;">Đóng</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button class="popup-btn" id="btn-submit-account" style="flex: 1; width: auto; margin-top: 0; font-size: 16px;">Đăng Ký</button>
-                    <button class="popup-btn" id="btn-close-account" style="flex: 1; width: auto; margin-top: 0; font-size: 16px; background: #475569; border-color: #334155;">Đóng</button>
-                </div>
             </div>
         </div>
 
-        <!-- POPUP NHẬN THƯỞNG -->
+        <!-- MODAL KẾT QUẢ MỞ HÒM -->
         <div id="modal-result">
             <div style="font-size: 24px; font-weight: 900; color: #ffbe1a; margin-bottom: 12px;">VẬT PHẨM MỞ ĐƯỢC!</div>
             <div class="reward-card" id="reward-card">
@@ -920,14 +988,14 @@
                     </div>
                 </div>
                 <div class="setting-row">
-                    <span>Xóa toàn bộ kho đồ</span>
+                    <span>Xóa toàn bộ kho đồ hiện tại</span>
                     <button class="btn-small-danger" id="btn-reset">Reset Kho</button>
                 </div>
                 <button class="popup-btn" id="btn-close-settings" style="width: 100%; margin-top: 20px;">Đóng</button>
             </div>
         </div>
 
-        <!-- POPUP KHO LƯU TRỮ -->
+        <!-- POPUP KHO ĐỒ -->
         <div class="game-modal" id="modal-inventory">
             <div class="modal-body">
                 <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">🎒 KHO NHÂN VẬT CỦA BẠN</h2>
@@ -1193,27 +1261,48 @@
         ];
 
         let gameState = { inventory: [] };
+        let currentUser = null; // null là khách vãng lai
         let isSpinning = false;
         const WINNING_INDEX = 48;
 
+        /* ===================================================
+           CƠ CHẾ LƯU TRỮ PHÂN BIỆT: CÓ TÀI KHOẢN vs KHÁCH VÃNG LAI
+           =================================================== */
         function loadData() {
-            try {
-                const saved = localStorage.getItem('csgo_case_save');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (parsed && Array.isArray(parsed.inventory)) {
-                        gameState.inventory = parsed.inventory;
-                    }
+            // Kiểm tra phiên đăng nhập hiện tại
+            currentUser = localStorage.getItem('csgo_current_user');
+            
+            if (currentUser) {
+                // Người có tài khoản: Lấy dữ liệu vĩnh viễn từ localStorage riêng của họ
+                try {
+                    const saved = localStorage.getItem(`csgo_inventory_${currentUser}`);
+                    gameState.inventory = saved ? JSON.parse(saved) : [];
+                } catch(e) {
+                    gameState.inventory = [];
                 }
-            } catch(e) {
-                gameState.inventory = [];
+            } else {
+                // Khách vãng lai: Lấy từ sessionStorage (tắt trình duyệt là tự mất)
+                try {
+                    const saved = sessionStorage.getItem('csgo_guest_inventory');
+                    gameState.inventory = saved ? JSON.parse(saved) : [];
+                } catch(e) {
+                    gameState.inventory = [];
+                }
             }
         }
 
         function saveData() {
-            try {
-                localStorage.setItem('csgo_case_save', JSON.stringify(gameState));
-            } catch(e) {}
+            if (currentUser) {
+                // Có tài khoản: Lưu vĩnh viễn theo tài khoản
+                try {
+                    localStorage.setItem(`csgo_inventory_${currentUser}`, JSON.stringify(gameState.inventory));
+                } catch(e) {}
+            } else {
+                // Khách: Chỉ lưu phiên tạm thời
+                try {
+                    sessionStorage.setItem('csgo_guest_inventory', JSON.stringify(gameState.inventory));
+                } catch(e) {}
+            }
         }
 
         function showToast(text, isError = true) {
@@ -1406,7 +1495,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             loadData();
 
-            // 1. XỬ LÝ 2 BẢNG THÔNG BÁO MỞ ĐẦU
+            // 1. POPUP 5S & 18+
             const overlayAccountTip = document.getElementById('overlay-account-tip');
             const overlayWarning18 = document.getElementById('overlay-warning-18');
             const countdownSec = document.getElementById('countdown-sec');
@@ -1432,65 +1521,172 @@
                 overlayWarning18.style.display = 'none';
             });
 
-            // 2. XỬ LÝ TẠO TÀI KHOẢN
+            // 2. LOGIC TÀI KHOẢN
             const modalAccount = document.getElementById('modal-account');
             const btnAccount = document.getElementById('btn-account');
-            const btnCloseAccount = document.getElementById('btn-close-account');
-            const btnSubmitAccount = document.getElementById('btn-submit-account');
-            const accUsername = document.getElementById('acc-username');
-            const accPassword = document.getElementById('acc-password');
+            const accountBtnLabel = document.getElementById('account-btn-label');
+            const tabBtnLogin = document.getElementById('tab-btn-login');
+            const tabBtnRegister = document.getElementById('tab-btn-register');
+            const panelLogin = document.getElementById('auth-panel-login');
+            const panelRegister = document.getElementById('auth-panel-register');
+            const panelLogged = document.getElementById('auth-panel-logged');
+            const panelForms = document.getElementById('auth-panel-forms');
+            const loggedUsernameSpan = document.getElementById('logged-username');
+            const btnLogout = document.getElementById('btn-logout');
+            const closeAuthBtns = document.querySelectorAll('.btn-close-auth');
+
+            const loginUsername = document.getElementById('login-username');
+            const loginPassword = document.getElementById('login-password');
+            const btnSubmitLogin = document.getElementById('btn-submit-login');
+
+            const regUsername = document.getElementById('reg-username');
+            const regPassword = document.getElementById('reg-password');
+            const btnSubmitRegister = document.getElementById('btn-submit-register');
+
+            function getRegisteredAccounts() {
+                try {
+                    const accs = localStorage.getItem('csgo_user_accounts');
+                    return accs ? JSON.parse(accs) : [];
+                } catch(e) {
+                    return [];
+                }
+            }
+
+            function updateAuthUI() {
+                if (currentUser) {
+                    accountBtnLabel.innerHTML = `👤 ${currentUser}`;
+                    panelLogged.style.display = 'block';
+                    panelForms.style.display = 'none';
+                    loggedUsernameSpan.textContent = currentUser;
+                } else {
+                    accountBtnLabel.innerHTML = `TÀI KHOẢN / ĐĂNG NHẬP`;
+                    panelLogged.style.display = 'none';
+                    panelForms.style.display = 'block';
+                }
+            }
+            updateAuthUI();
 
             btnAccount.addEventListener('click', () => {
                 sound.playPop();
-                accUsername.value = '';
-                accPassword.value = '';
                 modalAccount.style.display = 'flex';
             });
 
-            btnCloseAccount.addEventListener('click', () => {
-                sound.playPop();
-                modalAccount.style.display = 'none';
+            closeAuthBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sound.playPop();
+                    modalAccount.style.display = 'none';
+                });
             });
 
-            btnSubmitAccount.addEventListener('click', () => {
+            tabBtnLogin.addEventListener('click', () => {
                 sound.playPop();
-                const username = accUsername.value.trim();
-                const password = accPassword.value;
+                tabBtnLogin.classList.add('active');
+                tabBtnRegister.classList.remove('active');
+                panelLogin.style.display = 'block';
+                panelRegister.style.display = 'none';
+            });
+
+            tabBtnRegister.addEventListener('click', () => {
+                sound.playPop();
+                tabBtnRegister.classList.add('active');
+                tabBtnLogin.classList.remove('active');
+                panelRegister.style.display = 'block';
+                panelLogin.style.display = 'none';
+            });
+
+            // ĐĂNG KÝ
+            btnSubmitRegister.addEventListener('click', () => {
+                sound.playPop();
+                const username = regUsername.value.trim();
+                const password = regPassword.value;
 
                 if (!username) {
                     showToast("Vui lòng nhập tên tài khoản!");
-                    accUsername.focus();
+                    regUsername.focus();
                     return;
                 }
 
-                // Kiểm tra mật khẩu: tối thiểu 8 ký tự, chỉ gồm chữ và số
                 if (password.length < 8) {
-                    showToast("Mật khẩu phải có tối thiểu 8 chữ/số!");
-                    accPassword.focus();
+                    showToast("Mật khẩu phải tối thiểu 8 ký tự!");
+                    regPassword.focus();
                     return;
                 }
 
                 const alphanumericRegex = /^[a-zA-Z0-9]+$/;
                 if (!alphanumericRegex.test(password)) {
                     showToast("Mật khẩu không được chứa ký tự đặc biệt!");
-                    accPassword.focus();
+                    regPassword.focus();
                     return;
                 }
 
-                // Lưu tài khoản vào máy
-                const accountData = {
-                    username: username,
-                    password: password,
-                    createdAt: new Date().toISOString()
-                };
+                const accounts = getRegisteredAccounts();
+                if (accounts.some(acc => acc.username.toLowerCase() === username.toLowerCase())) {
+                    showToast("Tên tài khoản này đã có người dùng!");
+                    regUsername.focus();
+                    return;
+                }
 
-                localStorage.setItem('csgo_user_account', JSON.stringify(accountData));
+                accounts.push({ username, password });
+                localStorage.setItem('csgo_user_accounts', JSON.stringify(accounts));
 
                 showToast(`Tạo tài khoản "${username}" thành công!`, false);
+
+                // Chuyển qua form đăng nhập
+                loginUsername.value = username;
+                loginPassword.value = '';
+                regUsername.value = '';
+                regPassword.value = '';
+                tabBtnLogin.click();
+                loginPassword.focus();
+            });
+
+            // ĐĂNG NHẬP
+            btnSubmitLogin.addEventListener('click', () => {
+                sound.playPop();
+                const username = loginUsername.value.trim();
+                const password = loginPassword.value;
+
+                if (!username || !password) {
+                    showToast("Vui lòng nhập đầy đủ tài khoản & mật khẩu!");
+                    return;
+                }
+
+                const accounts = getRegisteredAccounts();
+                const found = accounts.find(acc => acc.username.toLowerCase() === username.toLowerCase() && acc.password === password);
+
+                if (found) {
+                    currentUser = found.username;
+                    localStorage.setItem('csgo_current_user', currentUser);
+                    loadData(); // Tải kho đồ đã lưu của tài khoản này
+                    updateAuthUI();
+                    renderInventory();
+                    
+                    showToast(`Chào mừng ${currentUser}! Dữ liệu đã được nạp.`, false);
+                    modalAccount.style.display = 'none';
+
+                    if (getAvailablePool().length === 0) {
+                        document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
+                    } else {
+                        document.getElementById('status-hint').textContent = "Nhấn nút để bắt đầu mở hòm!";
+                    }
+                } else {
+                    showToast("Tên tài khoản hoặc mật khẩu không chính xác!");
+                }
+            });
+
+            // ĐĂNG XUẤT
+            btnLogout.addEventListener('click', () => {
+                sound.playPop();
+                localStorage.removeItem('csgo_current_user');
+                currentUser = null;
+                updateAuthUI();
+                loadData(); // Quay về kho đồ tạm của khách
+                renderInventory();
+                showToast("Đã đăng xuất! Bạn đang ở chế độ khách tạm thời.", false);
                 modalAccount.style.display = 'none';
             });
 
-            // 3. CÁC SỰ KIỆN KHÁC TRONG GAME
+            // 3. SỰ KIỆN GAME
             const screenTitle = document.getElementById('screen-title');
             const screenGame = document.getElementById('screen-game');
             const modalResult = document.getElementById('modal-result');
