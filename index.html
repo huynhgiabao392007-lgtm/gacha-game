@@ -40,6 +40,113 @@
             background: #141721;
         }
 
+        /* ==========================================
+           CÁC BẢNG THÔNG BÁO MỞ ĐẦU (INTRO & CẢNH BÁO)
+           ========================================== */
+        .startup-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 10, 15, 0.92);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.35s ease;
+        }
+
+        .startup-box {
+            width: 100%;
+            max-width: 360px;
+            background: linear-gradient(180deg, #1e2536 0%, #131722 100%);
+            border: 3px solid #e5a93b;
+            border-radius: 20px;
+            padding: 24px 20px;
+            color: #ffffff;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 20px rgba(229, 169, 59, 0.25);
+            animation: popNotice 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popNotice {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .startup-icon {
+            font-size: 44px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+
+        .startup-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #ffcd59;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .startup-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        /* Thanh đếm ngược 5 giây */
+        .timer-bar-wrap {
+            width: 100%;
+            height: 8px;
+            background: #0d1017;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .timer-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            animation: countdownBar 5s linear forwards;
+        }
+
+        @keyframes countdownBar {
+            0% { width: 100%; }
+            100% { width: 0%; }
+        }
+
+        .timer-sub {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 800;
+        }
+
+        .btn-confirm-18 {
+            width: 100%;
+            padding: 13px 16px;
+            background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+            border: 2px solid #f87171;
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #7f1d1d, 0 8px 20px rgba(0,0,0,0.5);
+            transition: transform 0.08s ease, box-shadow 0.08s ease;
+        }
+
+        .btn-confirm-18:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7f1d1d;
+        }
+
         /* 1. MÀN HÌNH CHÍNH (TITLE SCREEN) */
         #screen-title {
             position: absolute;
@@ -68,10 +175,10 @@
             left: 50%;
             transform: translateX(-50%);
             width: 41.5%;
-            height: 68px;              /* Chiều cao khớp trọn nút vàng */
+            height: 68px;
             background: transparent;
             border: 4px solid transparent;
-            border-radius: 20px;         /* Góc bo ôm trọn mép nút */
+            border-radius: 20px;
             cursor: pointer;
             outline: none;
             -webkit-tap-highlight-color: transparent;
@@ -79,17 +186,14 @@
             transition: transform 0.08s ease, filter 0.08s ease;
         }
 
-        /* Tọa độ nút Play khớp chính xác trên hình ảnh */
         #btn-play {
             top: 58.5%;
         }
 
-        /* Tọa độ nút Settings khớp chính xác trên hình ảnh */
         #btn-settings {
             top: 71.5%;
         }
 
-        /* Hiệu ứng viền vàng tím khi hover / click */
         .interactive-btn:active,
         .interactive-btn:hover {
             animation: flashBorderYellowPurple 0.4s infinite alternate ease-in-out;
@@ -607,7 +711,6 @@
         }
         #toast.show { transform: translateX(-50%) translateY(0); }
 
-        /* TỐI ƯU GIAO DIỆN GAME KHI MỞ HÒM TRÊN MÀN HÌNH NHỎ */
         @media (max-height: 720px) {
             .case-icon { font-size: 70px !important; }
             .case-name { font-size: 17px !important; }
@@ -623,6 +726,35 @@
 <body>
 
     <div id="game-viewport">
+
+        <!-- BƯỚC 1: BẢNG NHỎ CHẠY 5 GIÂY KHI VỪA VÀO WEB -->
+        <div class="startup-overlay" id="overlay-account-tip">
+            <div class="startup-box">
+                <div class="startup-icon">👤</div>
+                <div class="startup-title">Thông Báo</div>
+                <div class="startup-text">
+                    Hãy tạo tài khoản để có trải nghiệm tốt nhất
+                </div>
+                <div class="timer-bar-wrap">
+                    <div class="timer-bar-fill"></div>
+                </div>
+                <div class="timer-sub">Đang chuyển tiếp (<span id="countdown-sec">5</span>s)...</div>
+            </div>
+        </div>
+
+        <!-- BƯỚC 2: BẢNG CẢNH BÁO & XÁC NHẬN 18+ -->
+        <div class="startup-overlay" id="overlay-warning-18" style="display: none;">
+            <div class="startup-box" style="border-color: #ef4444;">
+                <div class="startup-icon">⚠️</div>
+                <div class="startup-title" style="color: #f87171;">Cảnh Báo Nội Dung</div>
+                <div class="startup-text">
+                    Cảnh báo website nhằm mục đích tìm tài liệu và học tập. Không có mục đích công kích bất kỳ cá nhân, tổ chức nào!
+                </div>
+                <button class="btn-confirm-18" id="btn-confirm-18">
+                    Tôi đã đủ 18 tuổi
+                </button>
+            </div>
+        </div>
 
         <!-- MÀN HÌNH CHÍNH (TITLE SCREEN) -->
         <div id="screen-title">
@@ -685,7 +817,6 @@
                 <div class="reward-avatar" id="reward-avatar"></div>
                 <div class="reward-title-group">
                     <div class="reward-title" id="reward-title"></div>
-                    <!-- DÒNG PHỤ Ở ĐÂY -->
                     <div class="reward-sub" id="reward-sub"></div>
                 </div>
             </div>
@@ -796,7 +927,6 @@
 
         const sound = new SoundEngine();
 
-        // DANH SÁCH NHÂN VẬT KÈM DÒNG PHỤ (sub)
         const CSGO_POOL = [
             { 
                 id: 1, 
@@ -1189,6 +1319,35 @@
         window.addEventListener('DOMContentLoaded', () => {
             loadData();
 
+            // XỬ LÝ 2 BẢNG THÔNG BÁO ĐẦU GAME
+            const overlayAccountTip = document.getElementById('overlay-account-tip');
+            const overlayWarning18 = document.getElementById('overlay-warning-18');
+            const countdownSec = document.getElementById('countdown-sec');
+            const btnConfirm18 = document.getElementById('btn-confirm-18');
+
+            let timeLeft = 5;
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    countdownSec.textContent = timeLeft;
+                } else {
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
+
+            // Sau đúng 5 giây, ẩn bảng tạo tài khoản và hiện bảng cảnh báo 18+
+            setTimeout(() => {
+                overlayAccountTip.style.display = 'none';
+                overlayWarning18.style.display = 'flex';
+            }, 5000);
+
+            // Khi bấm "Tôi đã đủ 18 tuổi" thì đóng bảng cảnh báo và cho phép chơi game
+            btnConfirm18.addEventListener('click', () => {
+                sound.playPop();
+                overlayWarning18.style.display = 'none';
+            });
+
+            // CÁC SỰ KIỆN TRONG GAME
             const screenTitle = document.getElementById('screen-title');
             const screenGame = document.getElementById('screen-game');
             const modalResult = document.getElementById('modal-result');
