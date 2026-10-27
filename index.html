@@ -1088,8 +1088,8 @@
     <!-- SCRIPT VẬN HÀNH -->
     <script>
         // CẤU HÌNH FIREBASE DỰ ÁN GACHAFORYOURLIFE
-        const firebaseConfig = {
-            apiKey: "AIzaSyCPnB20-SB8dz48aV4iOU0oPxRGzv0YH7o",
+         const firebaseConfig = {
+            apiKey: "AIzaSyCy9IueyecetHMmV5f7GL_ZjBTkIKrMTC0",
             authDomain: "gachaforyourlife.firebaseapp.com",
             projectId: "gachaforyourlife",
             storageBucket: "gachaforyourlife.firebasestorage.app",
@@ -1147,7 +1147,7 @@
                     osc.type = isGold ? 'square' : 'sine';
                     osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.1);
                     gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.1);
-                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.1 + 0.4);
+                    gain.gain.exponentialRampToVconstalueAtTime(0.001, this.ctx.currentTime + idx * 0.1 + 0.4);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
                     osc.start(this.ctx.currentTime + idx * 0.1);
