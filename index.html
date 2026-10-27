@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="referrer" content="no-referrer">
     <title>CS:GO Case Opening - Gacha For Your Life</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,7 @@
         body, html {
             width: 100%;
             height: 100%;
+            height: 100dvh;
             overflow: hidden;
             background-color: #0f1217;
             display: flex;
@@ -31,20 +32,125 @@
         #game-viewport {
             position: relative;
             width: 100vw;
-            height: 100vh;
-            max-width: 550px;
+            height: 100%;
+            height: 100dvh;
+            max-width: 500px;
             max-height: 900px;
             overflow: hidden;
             box-shadow: 0 0 35px rgba(0,0,0,0.8);
             background: #141721;
         }
 
-        /* 1. MÀN HÌNH CHÍNH */
+        /* THÔNG BÁO BAN ĐẦU */
+        .startup-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 10, 15, 0.92);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.35s ease;
+        }
+
+        .startup-box {
+            width: 100%;
+            max-width: 360px;
+            background: linear-gradient(180deg, #1e2536 0%, #131722 100%);
+            border: 3px solid #e5a93b;
+            border-radius: 20px;
+            padding: 24px 20px;
+            color: #ffffff;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 20px rgba(229, 169, 59, 0.25);
+            animation: popNotice 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popNotice {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .startup-icon {
+            font-size: 44px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+
+        .startup-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #ffcd59;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .startup-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .timer-bar-wrap {
+            width: 100%;
+            height: 8px;
+            background: #0d1017;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .timer-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            animation: countdownBar 5s linear forwards;
+        }
+
+        @keyframes countdownBar {
+            0% { width: 100%; }
+            100% { width: 0%; }
+        }
+
+        .timer-sub {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 800;
+        }
+
+        .btn-confirm-18 {
+            width: 100%;
+            padding: 13px 16px;
+            background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+            border: 2px solid #f87171;
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #7f1d1d, 0 8px 20px rgba(0,0,0,0.5);
+            transition: transform 0.08s ease, box-shadow 0.08s ease;
+        }
+
+        .btn-confirm-18:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7f1d1d;
+        }
+
+        /* 1. MÀN HÌNH CHÍNH (TITLE SCREEN) */
         #screen-title {
             position: absolute;
             inset: 0;
             background: url('image_6ecf5e.png') no-repeat center center;
-            background-size: cover;
+            background-size: 100% 100%;
             z-index: 10;
         }
 
@@ -61,78 +167,69 @@
             100% { opacity: 0.3; transform: scale(0.7) rotate(90deg); }
         }
 
-        /* Nút trạng thái tài khoản trên màn hình chính */
-        .title-account-bar {
+        .interactive-btn {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            z-index: 25;
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-account-pill {
-            background: rgba(15, 23, 42, 0.85);
-            border: 2px solid #e5a93b;
-            color: #ffd000;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: 800;
-            font-size: 13px;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: all 0.1s ease;
-        }
-        .btn-account-pill:active {
-            transform: scale(0.95);
-        }
-
-        .menu-buttons-layer {
-            position: absolute;
-            top: 58.2%;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            width: 44.5%;
-            z-index: 20;
-        }
-
-        .interactive-btn {
-            position: relative;
-            width: 100%;
-            height: 72px;
+            width: 41.5%;
+            height: 68px;
             background: transparent;
-            border: 4.5px solid transparent;
+            border: 4px solid transparent;
             border-radius: 20px;
             cursor: pointer;
             outline: none;
             -webkit-tap-highlight-color: transparent;
+            z-index: 20;
             transition: transform 0.08s ease, filter 0.08s ease;
+        }
+
+        #btn-play {
+            top: 58.5%;
+        }
+
+        #btn-settings {
+            top: 71.5%;
+        }
+
+        #btn-account {
+            top: 84.5%;
+            background: linear-gradient(180deg, rgba(30, 36, 51, 0.92) 0%, rgba(15, 18, 25, 0.95) 100%);
+            border: 3px solid #e5a93b;
+            color: #ffd000;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
         }
 
         .interactive-btn:active,
         .interactive-btn:hover {
-            animation: flashBorderYellowPurple 0.35s infinite alternate ease-in-out;
+            animation: flashBorderYellowPurple 0.4s infinite alternate ease-in-out;
         }
+
         .interactive-btn:active {
-            transform: scale(0.98);
+            transform: translateX(-50%) scale(0.98);
         }
 
         @keyframes flashBorderYellowPurple {
             0% {
-                border-color: #ffe600;
-                box-shadow: 0 0 14px rgba(255, 230, 0, 0.95), inset 0 0 8px rgba(255, 230, 0, 0.45);
+                border-color: #ffd000;
+                box-shadow: 0 0 16px rgba(255, 208, 0, 0.95), inset 0 0 10px rgba(255, 208, 0, 0.4);
             }
             100% {
                 border-color: #d924f7;
-                box-shadow: 0 0 16px rgba(217, 36, 247, 0.95), inset 0 0 8px rgba(217, 36, 247, 0.45);
+                box-shadow: 0 0 18px rgba(217, 36, 247, 0.95), inset 0 0 10px rgba(217, 36, 247, 0.4);
             }
         }
 
-        /* 2. MÀN HÌNH MỞ HÒM */
+        /* 2. MÀN HÌNH MỞ HÒM CS:GO */
         #screen-game {
             position: absolute;
             inset: 0;
@@ -140,7 +237,7 @@
             flex-direction: column;
             background: radial-gradient(circle at 50% 20%, #1e2433 0%, #0d1017 100%);
             z-index: 30;
-            padding: 16px;
+            padding: 14px 16px;
             color: #ffffff;
         }
 
@@ -149,16 +246,17 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
         }
 
         .title-badge {
             background: rgba(0, 0, 0, 0.6);
             border: 2px solid #e5a93b;
             border-radius: 20px;
-            padding: 5px 18px;
+            padding: 5px 16px;
             color: #ffcd59;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 900;
             letter-spacing: 1px;
         }
@@ -168,8 +266,8 @@
             border: 2px solid #475569;
             border-radius: 12px;
             color: #fff;
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -188,8 +286,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-evenly;
             width: 100%;
+            min-height: 0;
         }
 
         .case-preview-box {
@@ -199,19 +298,19 @@
             transition: all 0.4s ease;
         }
         .case-preview-box.spinning-mode {
-            transform: scale(0.75) translateY(-15px);
+            transform: scale(0.72) translateY(-10px);
             opacity: 0.85;
         }
 
         .case-icon {
-            font-size: 110px;
+            font-size: 85px;
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8));
             animation: caseHover 3s ease-in-out infinite alternate;
             transition: transform 0.2s ease;
         }
         @keyframes caseHover {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-10px); }
+            100% { transform: translateY(-8px); }
         }
 
         .case-shaking {
@@ -226,7 +325,7 @@
         }
 
         .case-name {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 900;
             color: #e5a93b;
             text-transform: uppercase;
@@ -238,16 +337,16 @@
         .case-loot-preview {
             display: flex;
             gap: 6px;
-            margin-top: 14px;
-            padding: 8px 12px;
+            margin-top: 8px;
+            padding: 6px 12px;
             background: rgba(0,0,0,0.4);
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.08);
             transition: opacity 0.3s ease;
         }
         .loot-dot {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 4px;
         }
 
@@ -268,10 +367,10 @@
         }
 
         .roulette-viewport.active {
-            height: 150px;
+            height: 140px;
             opacity: 1;
-            margin-top: 15px;
-            margin-bottom: 10px;
+            margin-top: 8px;
+            margin-bottom: 8px;
         }
 
         .center-marker {
@@ -310,7 +409,7 @@
 
         .cs-item {
             width: 130px;
-            height: 136px;
+            height: 130px;
             margin: 0 4px;
             flex-shrink: 0;
             background: linear-gradient(180deg, #181d28 0%, #10131b 100%);
@@ -319,7 +418,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-around;
-            padding: 8px 6px;
+            padding: 6px 4px;
             position: relative;
             overflow: hidden;
             border: 2px solid #232a3a;
@@ -327,12 +426,12 @@
         }
 
         .cs-item-avatar {
-            width: 60px;
-            height: 60px;
+            width: 52px;
+            height: 52px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 46px;
+            font-size: 38px;
             filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6));
         }
 
@@ -347,6 +446,7 @@
             width: 100%;
             text-align: center;
             z-index: 2;
+            padding: 0 2px;
         }
 
         .cs-item-name {
@@ -358,13 +458,14 @@
             color: #d1d5db;
         }
 
-        .cs-item-subtitle {
+        .cs-item-sub {
             font-size: 9px;
+            font-weight: 600;
             color: #94a3b8;
-            font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            margin-top: 1px;
         }
 
         .cs-rarity-bar {
@@ -393,24 +494,25 @@
 
         .action-container {
             width: 100%;
-            margin-top: 25px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .btn-cs-open {
-            width: 82%;
-            height: 60px;
+            width: 86%;
+            height: 54px;
             background: linear-gradient(180deg, #62b132 0%, #448c1a 100%);
             border: 2px solid #82e240;
             border-radius: 14px;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: 1px;
             cursor: pointer;
-            box-shadow: 0 6px 0 #285410, 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 0 #285410, 0 10px 20px rgba(0,0,0,0.5);
             transition: all 0.08s ease;
             text-shadow: 0 2px 4px rgba(0,0,0,0.6);
             display: flex;
@@ -419,7 +521,7 @@
             gap: 10px;
         }
         .btn-cs-open:active {
-            transform: translateY(4px);
+            transform: translateY(3px);
             box-shadow: 0 2px 0 #285410;
         }
         .btn-cs-open:disabled {
@@ -435,17 +537,18 @@
         #modal-result {
             position: absolute;
             inset: 0;
-            background: rgba(8, 10, 15, 0.94);
+            background: rgba(8, 10, 15, 0.95);
             z-index: 50;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
 
         .reward-card {
             width: 250px;
+            max-width: 85%;
             height: 330px;
             background: #151922;
             border-radius: 18px;
@@ -453,7 +556,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-around;
-            padding: 18px;
+            padding: 16px;
             border: 4px solid #fff;
             animation: popReward 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             box-shadow: 0 15px 35px rgba(0,0,0,0.8);
@@ -465,12 +568,12 @@
         }
 
         .reward-avatar {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 80px;
+            font-size: 70px;
         }
 
         .reward-avatar img {
@@ -480,18 +583,27 @@
             border-radius: 8px;
         }
 
+        .reward-title-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+        }
+
         .reward-title { 
             font-size: 18px; 
             font-weight: 900; 
             text-align: center; 
         }
 
-        .reward-subtitle {
+        .reward-sub {
             font-size: 13px;
             font-weight: 700;
             color: #94a3b8;
-            letter-spacing: 0.5px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
         }
 
         .reward-rarity-badge {
@@ -507,38 +619,41 @@
             border: 3px solid #111;
             border-radius: 16px;
             color: #fff;
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 900;
             padding: 10px;
             cursor: pointer;
-            box-shadow: 0 5px 0 #000;
-            margin-top: 15px;
-            width: 200px;
+            box-shadow: 0 4px 0 #000;
+            margin-top: 18px;
+            width: 190px;
         }
         .popup-btn:active {
-            transform: translateY(3px);
+            transform: translateY(2px);
             box-shadow: 0 2px 0 #000;
         }
 
-        /* MODAL CHUNG */
+        /* MODAL KHO ĐỒ, CÀI ĐẶT & TÀI KHOẢN */
         .game-modal {
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 60;
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
 
         .modal-body {
             width: 100%;
             max-width: 440px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
             background: #1a202c;
             border: 3px solid #e5a93b;
             border-radius: 20px;
-            padding: 20px;
+            padding: 16px;
             color: white;
             box-shadow: 0 10px 25px rgba(0,0,0,0.7);
         }
@@ -547,11 +662,11 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            max-height: 52vh;
+            gap: 8px;
             overflow-y: auto;
             width: 100%;
-            padding: 8px;
+            padding: 6px;
+            flex: 1;
         }
 
         .setting-row {
@@ -564,8 +679,8 @@
         }
 
         .toggle-switch {
-            width: 58px;
-            height: 30px;
+            width: 54px;
+            height: 28px;
             background: #475569;
             border-radius: 20px;
             position: relative;
@@ -573,8 +688,8 @@
         }
         .toggle-switch.active { background: #22c55e; }
         .toggle-knob {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             background: white;
             border-radius: 50%;
             position: absolute;
@@ -582,7 +697,7 @@
             left: 4px;
             transition: transform 0.2s;
         }
-        .toggle-switch.active .toggle-knob { transform: translateX(28px); }
+        .toggle-switch.active .toggle-knob { transform: translateX(26px); }
 
         .btn-small-danger {
             background: #ef4444;
@@ -594,14 +709,81 @@
             cursor: pointer;
         }
 
-        .btn-small-primary {
-            background: #3b82f6;
+        /* GIAO DIỆN TAB AUTH */
+        .auth-tabs {
+            display: flex;
+            gap: 6px;
+            background: #0d111a;
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            border: 1px solid #334155;
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            padding: 9px 4px;
+            background: transparent;
             border: none;
             border-radius: 10px;
-            color: white;
+            color: #94a3b8;
+            font-size: 14px;
             font-weight: 900;
-            padding: 6px 14px;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .auth-tab-btn.active {
+            background: linear-gradient(180deg, #ffd34d 0%, #f7b300 100%);
+            color: #111;
+            box-shadow: 0 2px 8px rgba(247, 179, 0, 0.4);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 800;
+            color: #cbd5e1;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: #0f141e;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: #ffd000;
+        }
+
+        .form-note {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .user-status-card {
+            background: #10141f;
+            border: 2px solid #22c55e;
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            margin-bottom: 14px;
         }
 
         #toast {
@@ -611,25 +793,65 @@
             transform: translateX(-50%) translateY(-100px);
             background: #e11d48;
             color: white;
-            padding: 10px 24px;
+            padding: 10px 20px;
             border-radius: 30px;
             font-weight: 800;
-            z-index: 99;
+            font-size: 13px;
+            z-index: 120;
             transition: transform 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.5);
         }
         #toast.show { transform: translateX(-50%) translateY(0); }
+
+        @media (max-height: 720px) {
+            .case-icon { font-size: 70px !important; }
+            .case-name { font-size: 17px !important; }
+            .roulette-viewport.active { height: 120px !important; }
+            .cs-item { width: 110px !important; height: 115px !important; }
+            .cs-item-avatar { width: 44px !important; height: 44px !important; font-size: 32px !important; }
+            .btn-cs-open { height: 48px !important; font-size: 17px !important; }
+            .reward-card { height: 290px !important; }
+            .reward-avatar { width: 100px !important; height: 100px !important; }
+            #btn-account { font-size: 11.5px !important; }
+        }
     </style>
 </head>
 <body>
 
     <div id="game-viewport">
 
+        <!-- BƯỚC 1: BẢNG NHỎ CHẠY 5 GIÂY -->
+        <div class="startup-overlay" id="overlay-account-tip">
+            <div class="startup-box">
+                <div class="startup-icon">👤</div>
+                <div class="startup-title">Thông Báo</div>
+                <div class="startup-text">
+                    Hãy tạo tài khoản để có trải nghiệm tốt nhất
+                </div>
+                <div class="timer-bar-wrap">
+                    <div class="timer-bar-fill"></div>
+                </div>
+                <div class="timer-sub">Đang chuyển tiếp (<span id="countdown-sec">5</span>s)...</div>
+            </div>
+        </div>
+
+        <!-- BƯỚC 2: CẢNH BÁO 18+ -->
+        <div class="startup-overlay" id="overlay-warning-18" style="display: none;">
+            <div class="startup-box" style="border-color: #ef4444;">
+                <div class="startup-icon">⚠️</div>
+                <div class="startup-title" style="color: #f87171;">Cảnh Báo Nội Dung</div>
+                <div class="startup-text">
+                    Cảnh báo website nhằm mục đích tìm tài liệu và học tập. Không có mục đích công kích bất kỳ cá nhân, tổ chức nào!
+                </div>
+                <button class="btn-confirm-18" id="btn-confirm-18">
+                    Tôi đã đủ 18 tuổi
+                </button>
+            </div>
+        </div>
+
         <!-- MÀN HÌNH CHÍNH -->
         <div id="screen-title">
-            <div class="title-account-bar">
-                <button class="btn-account-pill" id="btn-open-auth">👤 <span id="account-status-text">Đăng Nhập</span></button>
-            </div>
-
             <svg class="sparkle-burst" style="top: 20%; left: 14%;" viewBox="0 0 100 100">
                 <polygon points="50,0 60,38 98,50 60,62 50,100 40,62 2,50 40,38" fill="#ffffff" />
             </svg>
@@ -637,13 +859,15 @@
                 <polygon points="50,0 60,38 98,50 60,62 50,100 40,62 2,50 40,38" fill="#ffffff" />
             </svg>
 
-            <div class="menu-buttons-layer">
-                <button class="interactive-btn" id="btn-play" aria-label="Play"></button>
-                <button class="interactive-btn" id="btn-settings" aria-label="Settings"></button>
-            </div>
+            <button class="interactive-btn" id="btn-play" aria-label="Play"></button>
+            <button class="interactive-btn" id="btn-settings" aria-label="Settings"></button>
+            
+            <button class="interactive-btn" id="btn-account">
+                <span id="account-btn-label">TÀI KHOẢN / ĐĂNG NHẬP</span>
+            </button>
         </div>
 
-        <!-- MÀN HÌNH GACHA -->
+        <!-- MÀN HÌNH GAME GACHA -->
         <div id="screen-game">
             <div class="hud-header">
                 <button class="btn-icon" id="btn-back">⬅</button>
@@ -673,22 +897,82 @@
                     <button class="btn-cs-open" id="btn-open-case">
                         <span>MỞ HÒM (UNLOCK)</span>
                     </button>
-                    <div id="status-hint" style="margin-top: 12px; font-size: 13px; color: #94a3b8; font-weight: 800;">
+                    <div id="status-hint" style="margin-top: 10px; font-size: 13px; color: #94a3b8; font-weight: 800; text-align: center;">
                         Nhấn nút để bắt đầu mở hòm!
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- POPUP NHẬN THƯỞNG -->
+        <!-- MODAL TÀI KHOẢN -->
+        <div class="game-modal" id="modal-account">
+            <div class="modal-body" style="max-width: 390px;">
+                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">TRUNG TÂM TÀI KHOẢN</h2>
+                
+                <!-- KHI ĐÃ ĐĂNG NHẬP -->
+                <div id="auth-panel-logged" style="display: none;">
+                    <div class="user-status-card">
+                        <div style="font-size: 13px; color: #94a3b8; margin-bottom: 4px;">Đang đăng nhập với:</div>
+                        <div id="logged-username" style="font-size: 18px; font-weight: 900; color: #4ade80;"></div>
+                        <div style="font-size: 12px; color: #cbd5e1; margin-top: 6px;">Kho đồ được lưu trữ an toàn vĩnh viễn trên đám mây!</div>
+                    </div>
+                    <button class="btn-small-danger" id="btn-logout" style="width: 100%; padding: 10px; font-size: 14px; margin-bottom: 10px;">Đăng Xuất</button>
+                    <button class="popup-btn btn-close-auth" style="width: 100%; margin-top: 0; font-size: 15px; background: #475569; border-color: #334155;">Đóng</button>
+                </div>
+
+                <!-- KHI CHƯA ĐĂNG NHẬP -->
+                <div id="auth-panel-forms">
+                    <div class="auth-tabs">
+                        <button class="auth-tab-btn active" id="tab-btn-login">ĐĂNG NHẬP</button>
+                        <button class="auth-tab-btn" id="tab-btn-register">TẠO TÀI KHOẢN</button>
+                    </div>
+
+                    <!-- TAB LOGIN -->
+                    <div id="auth-panel-login">
+                        <div class="form-group">
+                            <label for="login-username">Tên tài khoản</label>
+                            <input type="text" class="form-input" id="login-username" placeholder="Nhập tên tài khoản..." autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Mật khẩu</label>
+                            <input type="password" class="form-input" id="login-password" placeholder="Nhập mật khẩu...">
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 14px;">
+                            <button class="popup-btn" id="btn-submit-login" style="flex: 1; width: auto; margin-top: 0; font-size: 15px;">Đăng Nhập</button>
+                            <button class="popup-btn btn-close-auth" style="flex: 1; width: auto; margin-top: 0; font-size: 15px; background: #475569; border-color: #334155;">Đóng</button>
+                        </div>
+                    </div>
+
+                    <!-- TAB REGISTER -->
+                    <div id="auth-panel-register" style="display: none;">
+                        <div class="form-group">
+                            <label for="reg-username">Tên tài khoản</label>
+                            <input type="text" class="form-input" id="reg-username" placeholder="Tên tài khoản bất kỳ..." autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Mật khẩu</label>
+                            <input type="password" class="form-input" id="reg-password" placeholder="Tối thiểu 8 chữ hoặc số...">
+                            <div class="form-note">* Mật khẩu tối thiểu 8 ký tự, chỉ gồm chữ cái và số (không có ký tự đặc biệt).</div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 14px;">
+                            <button class="popup-btn" id="btn-submit-register" style="flex: 1; width: auto; margin-top: 0; font-size: 15px;">Tạo Tài Khoản</button>
+                            <button class="popup-btn btn-close-auth" style="flex: 1; width: auto; margin-top: 0; font-size: 15px; background: #475569; border-color: #334155;">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MODAL KẾT QUẢ MỞ HÒM -->
         <div id="modal-result">
-            <div style="font-size: 26px; font-weight: 900; color: #ffbe1a; margin-bottom: 15px;">VẬT PHẨM MỞ ĐƯỢC!</div>
+            <div style="font-size: 24px; font-weight: 900; color: #ffbe1a; margin-bottom: 12px;">VẬT PHẨM MỞ ĐƯỢC!</div>
             <div class="reward-card" id="reward-card">
                 <div class="reward-rarity-badge" id="reward-rarity">Covert</div>
                 <div class="reward-avatar" id="reward-avatar"></div>
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <div class="reward-title-group">
                     <div class="reward-title" id="reward-title"></div>
-                    <div class="reward-subtitle" id="reward-subtitle"></div>
+                    <div class="reward-sub" id="reward-sub"></div>
                 </div>
             </div>
             <button class="popup-btn" id="btn-close-result">Xác Nhận</button>
@@ -705,46 +989,19 @@
                     </div>
                 </div>
                 <div class="setting-row">
-                    <span>Tài khoản đám mây</span>
-                    <button class="btn-small-primary" id="btn-settings-auth">Đăng Nhập</button>
-                </div>
-                <div class="setting-row">
-                    <span>Xóa toàn bộ kho đồ</span>
+                    <span>Xóa toàn bộ kho đồ hiện tại</span>
                     <button class="btn-small-danger" id="btn-reset">Reset Kho</button>
                 </div>
                 <button class="popup-btn" id="btn-close-settings" style="width: 100%; margin-top: 20px;">Đóng</button>
             </div>
         </div>
 
-        <!-- POPUP KHO LƯU TRỮ -->
+        <!-- POPUP KHO ĐỒ -->
         <div class="game-modal" id="modal-inventory">
             <div class="modal-body">
                 <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">🎒 KHO NHÂN VẬT CỦA BẠN</h2>
                 <div class="cards-grid" id="inventory-grid"></div>
                 <button class="popup-btn" id="btn-close-inventory" style="width: 100%; margin-top: 15px;">Đóng</button>
-            </div>
-        </div>
-
-        <!-- POPUP ĐĂNG NHẬP / ĐĂNG KÝ FIREBASE -->
-        <div class="game-modal" id="modal-auth" style="z-index: 70;">
-            <div class="modal-body" style="text-align: center;">
-                <h2 id="auth-title" style="color: #e5a93b; margin-bottom: 15px;">ĐĂNG NHẬP</h2>
-                
-                <input type="email" id="auth-email" placeholder="Nhập Email của bạn" style="width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #475569; background: #0f1217; color: white; outline: none; font-size: 14px;">
-                
-                <input type="password" id="auth-password" placeholder="Mật khẩu (ít nhất 6 ký tự)" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #475569; background: #0f1217; color: white; outline: none; font-size: 14px;">
-
-                <button class="popup-btn" id="btn-submit-auth" style="width: 100%; margin-top: 5px;">Đăng Nhập</button>
-                
-                <div style="margin-top: 15px; font-size: 14px; color: #94a3b8; cursor: pointer;" id="btn-toggle-auth-mode">
-                    Chưa có tài khoản? <span style="color: #ffbe1a; text-decoration: underline;">Đăng ký ngay</span>
-                </div>
-
-                <div id="auth-logout-area" style="display: none; margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <button class="btn-small-danger" id="btn-logout" style="width: 100%; padding: 10px;">Đăng Xuất Tài Khoản</button>
-                </div>
-
-                <button class="popup-btn" id="btn-close-auth" style="width: 100%; margin-top: 12px; background: #334155; border-color: #475569;">Đóng</button>
             </div>
         </div>
 
@@ -757,8 +1014,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
+    <!-- SCRIPT VẬN HÀNH -->
     <script>
-        // CẤU HÌNH FIREBASE TỪ PROJECT CỦA BẠN
+        // CẤU HÌNH FIREBASE DỰ ÁN GACHAFORYOURLIFE
         const firebaseConfig = {
             apiKey: "AIzaSyCPnB20-SB8dz48aV4iOU0oPxRGzv0YH7o",
             authDomain: "gachaforyourlife.firebaseapp.com",
@@ -772,9 +1030,6 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-
-        let currentUser = null;
-        let isRegisterMode = false;
 
         class SoundEngine {
             constructor() {
@@ -1107,49 +1362,54 @@
         ];
 
         let gameState = { inventory: [] };
+        let currentUser = null;       // Chuỗi username hiển thị
+        let currentFirebaseUser = null; // Đối tượng Firebase Auth
         let isSpinning = false;
-        const ITEM_CARD_WIDTH = 138;
         const WINNING_INDEX = 48;
 
-        function loadLocalData() {
+        // Chuyển username thành email ảo để tương thích hoàn toàn với Firebase Auth
+        function toFirebaseEmail(username) {
+            return `${username.trim().toLowerCase()}@gachaforyourlife.app`;
+        }
+
+        /* ===================================================
+           LƯU TRỮ ĐỒNG BỘ: CLOUD FIRESTORE + SESSION KHÁCH
+           =================================================== */
+        function loadGuestData() {
             try {
-                const saved = localStorage.getItem('csgo_case_save');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (parsed && Array.isArray(parsed.inventory)) {
-                        gameState.inventory = parsed.inventory;
-                    }
-                }
+                const saved = sessionStorage.getItem('csgo_guest_inventory');
+                gameState.inventory = saved ? JSON.parse(saved) : [];
             } catch(e) {
                 gameState.inventory = [];
             }
         }
 
         async function saveData() {
-            // 1. Luôn lưu bản copy cục bộ
-            try {
-                localStorage.setItem('csgo_case_save', JSON.stringify(gameState));
-            } catch(e) {}
-
-            // 2. Nếu đã đăng nhập, lưu đồng bộ vĩnh viễn lên Firebase Firestore
-            if (currentUser) {
+            if (currentFirebaseUser) {
+                // Đã đăng nhập: Lưu vĩnh viễn lên Firebase Firestore
                 try {
-                    await db.collection("users").doc(currentUser.uid).set({
+                    await db.collection("users").doc(currentFirebaseUser.uid).set({
+                        username: currentUser,
                         inventory: gameState.inventory,
-                        email: currentUser.email,
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     }, { merge: true });
-                } catch(err) {
-                    console.error("Lỗi sao lưu đám mây:", err);
+                } catch(e) {
+                    console.error("Lỗi sao lưu Firestore:", e);
                 }
+            } else {
+                // Khách vãng lai: Tạm thời trong sessionStorage
+                try {
+                    sessionStorage.setItem('csgo_guest_inventory', JSON.stringify(gameState.inventory));
+                } catch(e) {}
             }
         }
 
-        function showToast(text) {
+        function showToast(text, isError = true) {
             const toast = document.getElementById('toast');
             toast.textContent = text;
+            toast.style.background = isError ? '#e11d48' : '#16a34a';
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2400);
+            setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
         function getAvailablePool() {
@@ -1185,7 +1445,7 @@
                 <div class="cs-item-avatar">${item.icon}</div>
                 <div class="cs-item-info">
                     <div class="cs-item-name">${item.name}</div>
-                    <div class="cs-item-subtitle">${item.subtitle || ''}</div>
+                    <div class="cs-item-sub">${item.sub || ''}</div>
                 </div>
                 <div class="cs-rarity-bar"></div>
             `;
@@ -1232,9 +1492,11 @@
                     }
                 }
 
+                const firstCard = track.children[0];
+                const cardWidth = firstCard ? (firstCard.getBoundingClientRect().width + 8) : 138;
                 const viewportWidth = rouletteViewport.offsetWidth;
-                const randomOffset = Math.floor(Math.random() * 64) - 32;
-                const targetX = -((WINNING_INDEX * ITEM_CARD_WIDTH) + (ITEM_CARD_WIDTH / 2) - (viewportWidth / 2) + randomOffset);
+                const randomOffset = Math.floor(Math.random() * (cardWidth * 0.45)) - (cardWidth * 0.22);
+                const targetX = -((WINNING_INDEX * cardWidth) + (cardWidth / 2) - (viewportWidth / 2) + randomOffset);
 
                 let startTime = performance.now();
                 const duration = 5800;
@@ -1247,7 +1509,7 @@
                     const easeOut = 1 - Math.pow(1 - progress, 3.2);
                     const currentPos = Math.abs(targetX * easeOut);
 
-                    const currentCardIndex = Math.floor((currentPos + (viewportWidth / 2)) / ITEM_CARD_WIDTH);
+                    const currentCardIndex = Math.floor((currentPos + (viewportWidth / 2)) / cardWidth);
                     if (currentCardIndex !== lastTickCardIndex) {
                         sound.playTick();
                         lastTickCardIndex = currentCardIndex;
@@ -1296,6 +1558,8 @@
             const modal = document.getElementById('modal-result');
             const card = document.getElementById('reward-card');
             const badge = document.getElementById('reward-rarity');
+            const title = document.getElementById('reward-title');
+            const sub = document.getElementById('reward-sub');
 
             badge.textContent = item.rarity;
             badge.style.background = item.color;
@@ -1305,9 +1569,9 @@
             card.style.boxShadow = `0 0 25px ${item.color}66`;
 
             document.getElementById('reward-avatar').innerHTML = item.icon;
-            document.getElementById('reward-title').textContent = item.name;
-            document.getElementById('reward-title').style.color = item.color;
-            document.getElementById('reward-subtitle').textContent = item.subtitle || '';
+            title.textContent = item.name;
+            title.style.color = item.color;
+            sub.textContent = item.sub || '';
 
             modal.style.display = 'flex';
         }
@@ -1327,66 +1591,240 @@
             });
         }
 
-        function updateAccountUI(user) {
-            const statusText = document.getElementById('account-status-text');
-            const btnSettingsAuth = document.getElementById('btn-settings-auth');
-            const logoutArea = document.getElementById('auth-logout-area');
-
-            if (user) {
-                const shortEmail = user.email.split('@')[0];
-                statusText.textContent = shortEmail;
-                btnSettingsAuth.textContent = "Hồ Sơ (" + shortEmail + ")";
-                logoutArea.style.display = "block";
-            } else {
-                statusText.textContent = "Đăng Nhập";
-                btnSettingsAuth.textContent = "Đăng Nhập";
-                logoutArea.style.display = "none";
-            }
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
-            loadLocalData();
+            loadGuestData();
 
-            const screenTitle = document.getElementById('screen-title');
-            const screenGame = document.getElementById('screen-game');
-            const modalResult = document.getElementById('modal-result');
-            const modalSettings = document.getElementById('modal-settings');
-            const modalInventory = document.getElementById('modal-inventory');
-            const modalAuth = document.getElementById('modal-auth');
+            // 1. POPUP 5S & 18+
+            const overlayAccountTip = document.getElementById('overlay-account-tip');
+            const overlayWarning18 = document.getElementById('overlay-warning-18');
+            const countdownSec = document.getElementById('countdown-sec');
+            const btnConfirm18 = document.getElementById('btn-confirm-18');
 
-            // LẮNG NGHE ĐĂNG NHẬP FIREBASE
+            let timeLeft = 5;
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    countdownSec.textContent = timeLeft;
+                } else {
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                overlayAccountTip.style.display = 'none';
+                overlayWarning18.style.display = 'flex';
+            }, 5000);
+
+            btnConfirm18.addEventListener('click', () => {
+                sound.playPop();
+                overlayWarning18.style.display = 'none';
+            });
+
+            // 2. LOGIC TÀI KHOẢN FIREBASE
+            const modalAccount = document.getElementById('modal-account');
+            const btnAccount = document.getElementById('btn-account');
+            const accountBtnLabel = document.getElementById('account-btn-label');
+            const tabBtnLogin = document.getElementById('tab-btn-login');
+            const tabBtnRegister = document.getElementById('tab-btn-register');
+            const panelLogin = document.getElementById('auth-panel-login');
+            const panelRegister = document.getElementById('auth-panel-register');
+            const panelLogged = document.getElementById('auth-panel-logged');
+            const panelForms = document.getElementById('auth-panel-forms');
+            const loggedUsernameSpan = document.getElementById('logged-username');
+            const btnLogout = document.getElementById('btn-logout');
+            const closeAuthBtns = document.querySelectorAll('.btn-close-auth');
+
+            const loginUsername = document.getElementById('login-username');
+            const loginPassword = document.getElementById('login-password');
+            const btnSubmitLogin = document.getElementById('btn-submit-login');
+
+            const regUsername = document.getElementById('reg-username');
+            const regPassword = document.getElementById('reg-password');
+            const btnSubmitRegister = document.getElementById('btn-submit-register');
+
+            function updateAuthUI() {
+                if (currentUser) {
+                    accountBtnLabel.innerHTML = `👤 ${currentUser}`;
+                    panelLogged.style.display = 'block';
+                    panelForms.style.display = 'none';
+                    loggedUsernameSpan.textContent = currentUser;
+                } else {
+                    accountBtnLabel.innerHTML = `TÀI KHOẢN / ĐĂNG NHẬP`;
+                    panelLogged.style.display = 'none';
+                    panelForms.style.display = 'block';
+                }
+            }
+
+            // Tự động lắng nghe trạng thái Firebase Auth
             auth.onAuthStateChanged(async (user) => {
-                currentUser = user;
-                updateAccountUI(user);
-
+                currentFirebaseUser = user;
                 if (user) {
+                    currentUser = user.displayName || user.email.split('@')[0];
+                    updateAuthUI();
+
+                    // Tải dữ liệu từ Cloud Firestore
                     try {
                         const docSnap = await db.collection("users").doc(user.uid).get();
                         if (docSnap.exists) {
                             const cloudData = docSnap.data();
                             if (Array.isArray(cloudData.inventory)) {
-                                // Gộp kho đồ máy và kho đồ mây để không mất dữ liệu mở trước khi đăng nhập
+                                // Gộp kho đồ máy và kho đồ mây (không sợ mất đồ mở trước khi đăng nhập)
                                 const merged = [...gameState.inventory];
                                 cloudData.inventory.forEach(cItem => {
                                     if (!merged.some(m => m.id === cItem.id)) merged.push(cItem);
                                 });
                                 gameState.inventory = merged;
-                                saveData();
+                                await saveData();
                             }
                         } else {
                             await db.collection("users").doc(user.uid).set({
-                                inventory: gameState.inventory,
-                                email: user.email
+                                username: currentUser,
+                                inventory: gameState.inventory
                             });
                         }
                     } catch(err) {
-                        console.error("Lỗi tải từ mây:", err);
+                        console.error("Lỗi nạp Firestore:", err);
                     }
-                    showToast("Đã đăng nhập: " + user.email);
+                    renderInventory();
+                } else {
+                    currentUser = null;
+                    updateAuthUI();
+                    loadGuestData();
+                    renderInventory();
                 }
             });
 
-            // GIAO DIỆN CHÍNH
+            btnAccount.addEventListener('click', () => {
+                sound.playPop();
+                modalAccount.style.display = 'flex';
+            });
+
+            closeAuthBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sound.playPop();
+                    modalAccount.style.display = 'none';
+                });
+            });
+
+            tabBtnLogin.addEventListener('click', () => {
+                sound.playPop();
+                tabBtnLogin.classList.add('active');
+                tabBtnRegister.classList.remove('active');
+                panelLogin.style.display = 'block';
+                panelRegister.style.display = 'none';
+            });
+
+            tabBtnRegister.addEventListener('click', () => {
+                sound.playPop();
+                tabBtnRegister.classList.add('active');
+                tabBtnLogin.classList.remove('active');
+                panelRegister.style.display = 'block';
+                panelLogin.style.display = 'none';
+            });
+
+            // ĐĂNG KÝ VỚI FIREBASE
+            btnSubmitRegister.addEventListener('click', async () => {
+                sound.playPop();
+                const username = regUsername.value.trim();
+                const password = regPassword.value;
+
+                if (!username) {
+                    showToast("Vui lòng nhập tên tài khoản!");
+                    regUsername.focus();
+                    return;
+                }
+
+                if (password.length < 8) {
+                    showToast("Mật khẩu phải tối thiểu 8 ký tự!");
+                    regPassword.focus();
+                    return;
+                }
+
+                const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+                if (!alphanumericRegex.test(password)) {
+                    showToast("Mật khẩu không được chứa ký tự đặc biệt!");
+                    regPassword.focus();
+                    return;
+                }
+
+                try {
+                    const virtualEmail = toFirebaseEmail(username);
+                    const userCredential = await auth.createUserWithEmailAndPassword(virtualEmail, password);
+                    await userCredential.user.updateProfile({ displayName: username });
+
+                    // Tạo kho đồ ban đầu trên Firestore
+                    await db.collection("users").doc(userCredential.user.uid).set({
+                        username: username,
+                        inventory: gameState.inventory,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    showToast(`Tạo tài khoản "${username}" thành công!`, false);
+                    regUsername.value = '';
+                    regPassword.value = '';
+                    modalAccount.style.display = 'none';
+                } catch(error) {
+                    if (error.code === 'auth/email-already-in-use') {
+                        showToast("Tên tài khoản này đã có người dùng!");
+                    } else {
+                        showToast(error.message);
+                    }
+                }
+            });
+
+            // ĐĂNG NHẬP VỚI FIREBASE
+            btnSubmitLogin.addEventListener('click', async () => {
+                sound.playPop();
+                const username = loginUsername.value.trim();
+                const password = loginPassword.value;
+
+                if (!username || !password) {
+                    showToast("Vui lòng nhập đầy đủ tài khoản & mật khẩu!");
+                    return;
+                }
+
+                try {
+                    const virtualEmail = toFirebaseEmail(username);
+                    await auth.signInWithEmailAndPassword(virtualEmail, password);
+                    
+                    loginUsername.value = '';
+                    loginPassword.value = '';
+                    showToast(`Chào mừng trở lại! Dữ liệu đã đồng bộ.`, false);
+                    modalAccount.style.display = 'none';
+
+                    if (getAvailablePool().length === 0) {
+                        document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
+                    } else {
+                        document.getElementById('status-hint').textContent = "Nhấn nút để bắt đầu mở hòm!";
+                    }
+                } catch(error) {
+                    showToast("Tên tài khoản hoặc mật khẩu không chính xác!");
+                }
+            });
+
+            // ĐĂNG XUẤT KHỎI FIREBASE
+            btnLogout.addEventListener('click', async () => {
+                sound.playPop();
+                try {
+                    await auth.signOut();
+                    showToast("Đã đăng xuất! Bạn đang ở chế độ khách tạm thời.", false);
+                    modalAccount.style.display = 'none';
+                } catch(err) {
+                    showToast("Lỗi khi đăng xuất!");
+                }
+            });
+
+            // 3. SỰ KIỆN GAME
+            const screenTitle = document.getElementById('screen-title');
+            const screenGame = document.getElementById('screen-game');
+            const modalResult = document.getElementById('modal-result');
+            const modalSettings = document.getElementById('modal-settings');
+            const modalInventory = document.getElementById('modal-inventory');
+
+            if (getAvailablePool().length === 0) {
+                document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
+            }
+
             document.getElementById('btn-play').addEventListener('click', () => {
                 sound.playPop();
                 screenTitle.style.display = 'none';
@@ -1446,67 +1884,7 @@
                 await saveData();
                 renderInventory();
                 document.getElementById('status-hint').textContent = "Nhấn nút để bắt đầu mở hòm!";
-                showToast("Đã làm sạch kho đồ!");
-            });
-
-            // XỬ LÝ AUTH MODAL
-            const openAuthHandler = () => {
-                sound.playPop();
-                modalAuth.style.display = 'flex';
-            };
-
-            document.getElementById('btn-open-auth').addEventListener('click', openAuthHandler);
-            document.getElementById('btn-settings-auth').addEventListener('click', () => {
-                modalSettings.style.display = 'none';
-                openAuthHandler();
-            });
-
-            document.getElementById('btn-close-auth').addEventListener('click', () => {
-                sound.playPop();
-                modalAuth.style.display = 'none';
-            });
-
-            const btnToggleAuth = document.getElementById('btn-toggle-auth-mode');
-            btnToggleAuth.addEventListener('click', () => {
-                isRegisterMode = !isRegisterMode;
-                document.getElementById('auth-title').textContent = isRegisterMode ? "ĐĂNG KÝ TÀI KHOẢN" : "ĐĂNG NHẬP";
-                document.getElementById('btn-submit-auth').textContent = isRegisterMode ? "Tạo Tài Khoản" : "Đăng Nhập";
-                btnToggleAuth.innerHTML = isRegisterMode 
-                    ? 'Đã có tài khoản? <span style="color: #ffbe1a; text-decoration: underline;">Đăng nhập ngay</span>' 
-                    : 'Chưa có tài khoản? <span style="color: #ffbe1a; text-decoration: underline;">Đăng ký ngay</span>';
-            });
-
-            document.getElementById('btn-submit-auth').addEventListener('click', async () => {
-                const email = document.getElementById('auth-email').value.trim();
-                const password = document.getElementById('auth-password').value;
-
-                if (!email || password.length < 6) {
-                    showToast("Mật khẩu phải từ 6 ký tự trở lên!");
-                    return;
-                }
-
-                try {
-                    if (isRegisterMode) {
-                        await auth.createUserWithEmailAndPassword(email, password);
-                        showToast("Đăng ký thành công!");
-                    } else {
-                        await auth.signInWithEmailAndPassword(email, password);
-                        showToast("Đăng nhập thành công!");
-                    }
-                    modalAuth.style.display = 'none';
-                } catch(error) {
-                    showToast(error.message);
-                }
-            });
-
-            document.getElementById('btn-logout').addEventListener('click', async () => {
-                try {
-                    await auth.signOut();
-                    showToast("Đã đăng xuất!");
-                    modalAuth.style.display = 'none';
-                } catch(err) {
-                    showToast("Lỗi đăng xuất!");
-                }
+                showToast("Đã làm sạch kho đồ!", false);
             });
         });
     </script>
