@@ -658,6 +658,55 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.7);
         }
 
+        /* THỐNG KÊ CHI TIẾT NGƯỜI CHƠI */
+        .player-stats-panel {
+            background: #0d121c;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffd000;
+        }
+
+        .collection-progress-wrap {
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .collection-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            transition: width 0.35s ease;
+        }
+
         .cards-grid {
             display: flex;
             flex-wrap: wrap;
@@ -996,10 +1045,32 @@
             </div>
         </div>
 
-        <!-- POPUP KHO ĐỒ -->
+        <!-- POPUP KHO ĐỒ KÈM BẢNG THỐNG KÊ CHI TIẾT -->
         <div class="game-modal" id="modal-inventory">
             <div class="modal-body">
-                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 12px;">🎒 KHO NHÂN VẬT CỦA BẠN</h2>
+                <h2 style="text-align: center; color: #e5a93b; margin-bottom: 10px;">🎒 KHO NHÂN VẬT CỦA BẠN</h2>
+                
+                <!-- BẢNG THỐNG KÊ CHI TIẾT -->
+                <div class="player-stats-panel">
+                    <div class="stat-item">
+                        <span class="stat-label">Tổng lượt mở</span>
+                        <span class="stat-value" id="stat-total-spins">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Đã sở hữu</span>
+                        <span class="stat-value" id="stat-owned-count">0/0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Hoàn thành</span>
+                        <span class="stat-value" id="stat-completion-rate">0%</span>
+                    </div>
+                </div>
+
+                <!-- THANH TIẾN ĐỘ THU THẬP -->
+                <div class="collection-progress-wrap">
+                    <div class="collection-progress-fill" id="collection-progress-fill"></div>
+                </div>
+
                 <div class="cards-grid" id="inventory-grid"></div>
                 <button class="popup-btn" id="btn-close-inventory" style="width: 100%; margin-top: 15px;">Đóng</button>
             </div>
@@ -1018,7 +1089,7 @@
     <script>
         // CẤU HÌNH FIREBASE DỰ ÁN GACHAFORYOURLIFE
         const firebaseConfig = {
-            apiKey: "AIzaSyCPnB2O-SB8dz48aV4iOU0oPxRGzv0YH7o",
+            apiKey: "AIzaSyCPnB20-SB8dz48aV4iOU0oPxRGzv0YH7o",
             authDomain: "gachaforyourlife.firebaseapp.com",
             projectId: "gachaforyourlife",
             storageBucket: "gachaforyourlife.firebasestorage.app",
@@ -1361,13 +1432,16 @@
             }
         ];
 
-        let gameState = { inventory: [] };
-        let currentUser = null;       // Chuỗi username hiển thị
-        let currentFirebaseUser = null; // Đối tượng Firebase Auth
+        let gameState = { 
+            inventory: [],
+            totalSpins: 0 
+        };
+        let currentUser = null;         // Username hiển thị
+        let currentFirebaseUser = null; // Đối tượng tài khoản Firebase Auth
         let isSpinning = false;
         const WINNING_INDEX = 48;
 
-        // Chuyển username thành email ảo để tương thích hoàn toàn với Firebase Auth
+        // Tự động map username thành email ảo để tương thích hoàn toàn Firebase Auth
         function toFirebaseEmail(username) {
             return `${username.trim().toLowerCase()}@gachaforyourlife.app`;
         }
@@ -1378,9 +1452,15 @@
         function loadGuestData() {
             try {
                 const saved = sessionStorage.getItem('csgo_guest_inventory');
-                gameState.inventory = saved ? JSON.parse(saved) : [];
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    gameState.inventory = parsed.inventory || [];
+                    gameState.totalSpins = parsed.totalSpins || 0;
+                } else {
+                    gameState = { inventory: [], totalSpins: 0 };
+                }
             } catch(e) {
-                gameState.inventory = [];
+                gameState = { inventory: [], totalSpins: 0 };
             }
         }
 
@@ -1391,6 +1471,7 @@
                     await db.collection("users").doc(currentFirebaseUser.uid).set({
                         username: currentUser,
                         inventory: gameState.inventory,
+                        totalSpins: gameState.totalSpins || 0,
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     }, { merge: true });
                 } catch(e) {
@@ -1399,7 +1480,7 @@
             } else {
                 // Khách vãng lai: Tạm thời trong sessionStorage
                 try {
-                    sessionStorage.setItem('csgo_guest_inventory', JSON.stringify(gameState.inventory));
+                    sessionStorage.setItem('csgo_guest_inventory', JSON.stringify(gameState));
                 } catch(e) {}
             }
         }
@@ -1530,6 +1611,7 @@
                     isSpinning = false;
                     document.getElementById('btn-open-case').disabled = false;
 
+                    gameState.totalSpins = (gameState.totalSpins || 0) + 1;
                     gameState.inventory.push(winningSkin);
                     saveData();
 
@@ -1579,6 +1661,16 @@
         function renderInventory() {
             const grid = document.getElementById('inventory-grid');
             grid.innerHTML = '';
+
+            // Cập nhật các chỉ số thống kê người chơi
+            const totalPool = CSGO_POOL.length;
+            const ownedCount = gameState.inventory.length;
+            const percentage = totalPool > 0 ? Math.round((ownedCount / totalPool) * 100) : 0;
+
+            document.getElementById('stat-total-spins').textContent = gameState.totalSpins || 0;
+            document.getElementById('stat-owned-count').textContent = `${ownedCount}/${totalPool}`;
+            document.getElementById('stat-completion-rate').textContent = `${percentage}%`;
+            document.getElementById('collection-progress-fill').style.width = `${percentage}%`;
 
             if (gameState.inventory.length === 0) {
                 grid.innerHTML = '<div style="color: #94a3b8; padding: 30px; text-align: center; width: 100%;">Kho còn trống!<br>Hãy mở hòm để nhận nhân vật.</div>';
@@ -1655,31 +1747,34 @@
                 }
             }
 
-            // Tự động lắng nghe trạng thái Firebase Auth
+            // Tự động lắng nghe phiên đăng nhập từ Firebase
             auth.onAuthStateChanged(async (user) => {
                 currentFirebaseUser = user;
                 if (user) {
                     currentUser = user.displayName || user.email.split('@')[0];
                     updateAuthUI();
 
-                    // Tải dữ liệu từ Cloud Firestore
+                    // Tải dữ liệu kho đồ và số lần mở từ Cloud Firestore
                     try {
                         const docSnap = await db.collection("users").doc(user.uid).get();
                         if (docSnap.exists) {
                             const cloudData = docSnap.data();
                             if (Array.isArray(cloudData.inventory)) {
-                                // Gộp kho đồ máy và kho đồ mây (không sợ mất đồ mở trước khi đăng nhập)
                                 const merged = [...gameState.inventory];
                                 cloudData.inventory.forEach(cItem => {
                                     if (!merged.some(m => m.id === cItem.id)) merged.push(cItem);
                                 });
                                 gameState.inventory = merged;
-                                await saveData();
                             }
+                            if (typeof cloudData.totalSpins === 'number') {
+                                gameState.totalSpins = Math.max(gameState.totalSpins, cloudData.totalSpins);
+                            }
+                            await saveData();
                         } else {
                             await db.collection("users").doc(user.uid).set({
                                 username: currentUser,
-                                inventory: gameState.inventory
+                                inventory: gameState.inventory,
+                                totalSpins: gameState.totalSpins || 0
                             });
                         }
                     } catch(err) {
@@ -1722,7 +1817,7 @@
                 panelLogin.style.display = 'none';
             });
 
-            // ĐĂNG KÝ VỚI FIREBASE
+            // ĐĂNG KÝ FIREBASE
             btnSubmitRegister.addEventListener('click', async () => {
                 sound.playPop();
                 const username = regUsername.value.trim();
@@ -1752,10 +1847,10 @@
                     const userCredential = await auth.createUserWithEmailAndPassword(virtualEmail, password);
                     await userCredential.user.updateProfile({ displayName: username });
 
-                    // Tạo kho đồ ban đầu trên Firestore
                     await db.collection("users").doc(userCredential.user.uid).set({
                         username: username,
                         inventory: gameState.inventory,
+                        totalSpins: gameState.totalSpins || 0,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
@@ -1772,7 +1867,7 @@
                 }
             });
 
-            // ĐĂNG NHẬP VỚI FIREBASE
+            // ĐĂNG NHẬP FIREBASE
             btnSubmitLogin.addEventListener('click', async () => {
                 sound.playPop();
                 const username = loginUsername.value.trim();
@@ -1802,7 +1897,7 @@
                 }
             });
 
-            // ĐĂNG XUẤT KHỎI FIREBASE
+            // ĐĂNG XUẤT
             btnLogout.addEventListener('click', async () => {
                 sound.playPop();
                 try {
@@ -1880,7 +1975,7 @@
 
             document.getElementById('btn-reset').addEventListener('click', async () => {
                 sound.playPop();
-                gameState = { inventory: [] };
+                gameState = { inventory: [], totalSpins: 0 };
                 await saveData();
                 renderInventory();
                 document.getElementById('status-hint').textContent = "Nhấn nút để bắt đầu mở hòm!";
