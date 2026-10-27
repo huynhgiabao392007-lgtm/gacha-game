@@ -1013,7 +1013,7 @@
             </div>
         </div>
 
-        <!-- MODAL KẾT QUẢ MỞ HÒM -->
+        <!-- MODAL KẾT QUẢ MỞ HÒM (ĐÃ BỔ SUNG ĐỦ THẺ ĐÓNG </div>) -->
         <div id="modal-result" style="position: absolute; inset: 0; background: rgba(8, 10, 15, 0.95); z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 16px;">
             <div style="font-size: 24px; font-weight: 900; color: #ffbe1a; margin-bottom: 12px;">VẬT PHẨM MỞ ĐƯỢC!</div>
             <div class="reward-card" id="reward-card">
@@ -1022,10 +1022,10 @@
                 <div class="reward-title-group">
                     <div class="reward-title" id="reward-title"></div>
                     <div class="reward-sub" id="reward-sub"></div>
+                </div>
             </div>
+            <button class="popup-btn" id="btn-close-result">Xác Nhận</button>
         </div>
-        <button class="popup-btn" id="btn-close-result">Xác Nhận</button>
-    </div>
 
         <!-- POPUP CÀI ĐẶT -->
         <div class="game-modal" id="modal-settings">
@@ -1088,7 +1088,7 @@
     <!-- SCRIPT VẬN HÀNH -->
     <script>
         // CẤU HÌNH FIREBASE DỰ ÁN GACHAFORYOURLIFE
-         const firebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyCy9IueyecetHMmV5f7GL_ZjBTkIKrMTC0",
             authDomain: "gachaforyourlife.firebaseapp.com",
             projectId: "gachaforyourlife",
@@ -1137,6 +1137,7 @@
                 osc.stop(this.ctx.currentTime + 0.04);
             }
 
+            // ĐÃ SỬA LỖI CHÍNH TẢ exponentialRampToValueAtTime TẠI ĐÂY
             playFanfare(isGold = false) {
                 if (!this.enabled) return;
                 this.init();
@@ -1147,7 +1148,7 @@
                     osc.type = isGold ? 'square' : 'sine';
                     osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.1);
                     gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.1);
-                    gain.gain.exponentialRampToVconstalueAtTime(0.001, this.ctx.currentTime + idx * 0.1 + 0.4);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.1 + 0.4);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
                     osc.start(this.ctx.currentTime + idx * 0.1);
@@ -1521,11 +1522,11 @@
 
         function createItemElement(item) {
             const div = document.createElement('div');
-            div.className = `cs-item rarity-${item.rarity}`;
+            div.className = `cs-item rarity-${item.rarity || 'Covert'}`;
             div.innerHTML = `
-                <div class="cs-item-avatar">${item.icon}</div>
+                <div class="cs-item-avatar">${item.icon || '🎁'}</div>
                 <div class="cs-item-info">
-                    <div class="cs-item-name">${item.name}</div>
+                    <div class="cs-item-name">${item.name || 'Nhân vật'}</div>
                     <div class="cs-item-sub">${item.sub || ''}</div>
                 </div>
                 <div class="cs-rarity-bar"></div>
@@ -1615,7 +1616,12 @@
                     gameState.inventory.push(winningSkin);
                     saveData();
 
-                    sound.playFanfare(winningSkin.rarity === "Special");
+                    try {
+                        sound.playFanfare(winningSkin.rarity === "Special");
+                    } catch(e) {
+                        console.warn("Lỗi phát âm thanh:", e);
+                    }
+
                     showRewardModal(winningSkin);
 
                     if (getAvailablePool().length === 0) {
@@ -1636,6 +1642,7 @@
             caseIcon.textContent = "📦";
         }
 
+        // HÀM HIỂN THỊ BẢNG PHẦN THƯỞNG AN TOÀN TUYỆT ĐỐI
         function showRewardModal(item) {
             if (!item) return;
 
@@ -1649,35 +1656,33 @@
             if (!modal) return;
 
             const itemColor = item.color || '#e5a93b';
-            const itemRarity = item.rarity || 'Vật phẩm';
+            const itemRarity = item.rarity || 'Covert';
 
-         if (badge) {
-            badge.textContent = itemRarity;
-            badge.style.background = itemColor;
-            badge.style.color = (itemRarity === "Special" || itemColor === "#ffd700") ? "#000" : "#fff";
-    }
+            if (badge) {
+                badge.textContent = itemRarity;
+                badge.style.background = itemColor;
+                badge.style.color = (itemRarity === "Special" || itemColor === "#ffd700") ? "#000" : "#fff";
+            }
 
-        if (card) {
-            card.style.borderColor = itemColor;
-            card.style.boxShadow = `0 0 25px ${itemColor}66`;
-    }
+            if (card) {
+                card.style.borderColor = itemColor;
+                card.style.boxShadow = `0 0 25px ${itemColor}66`;
+            }
 
-        if (avatar) avatar.innerHTML = item.icon || '🎁';
-        if (title) {
-            title.textContent = item.name || 'Nhân vật';
-            title.style.color = itemColor;
-    }
-        if (sub) sub.textContent = item.sub || '';
+            if (avatar) avatar.innerHTML = item.icon || '🎁';
+            if (title) {
+                title.textContent = item.name || 'Nhân vật';
+                title.style.color = itemColor;
+            }
+            if (sub) sub.textContent = item.sub || '';
 
-    // Hiển thị bảng kết quả
-        modal.style.display = 'flex';
-}
+            modal.style.display = 'flex';
+        }
 
         function renderInventory() {
             const grid = document.getElementById('inventory-grid');
             grid.innerHTML = '';
 
-            // Cập nhật các chỉ số thống kê người chơi
             const totalPool = CSGO_POOL.length;
             const ownedCount = gameState.inventory.length;
             const percentage = totalPool > 0 ? Math.round((ownedCount / totalPool) * 100) : 0;
@@ -1762,14 +1767,12 @@
                 }
             }
 
-            // Tự động lắng nghe phiên đăng nhập từ Firebase
             auth.onAuthStateChanged(async (user) => {
                 currentFirebaseUser = user;
                 if (user) {
                     currentUser = user.displayName || user.email.split('@')[0];
                     updateAuthUI();
 
-                    // Tải dữ liệu kho đồ và số lần mở từ Cloud Firestore
                     try {
                         const docSnap = await db.collection("users").doc(user.uid).get();
                         if (docSnap.exists) {
@@ -1832,7 +1835,6 @@
                 panelLogin.style.display = 'none';
             });
 
-            // ĐĂNG KÝ FIREBASE
             btnSubmitRegister.addEventListener('click', async () => {
                 sound.playPop();
                 const username = regUsername.value.trim();
@@ -1882,7 +1884,6 @@
                 }
             });
 
-            // ĐĂNG NHẬP FIREBASE
             btnSubmitLogin.addEventListener('click', async () => {
                 sound.playPop();
                 const username = loginUsername.value.trim();
@@ -1912,7 +1913,6 @@
                 }
             });
 
-            // ĐĂNG XUẤT
             btnLogout.addEventListener('click', async () => {
                 sound.playPop();
                 try {
