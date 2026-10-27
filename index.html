@@ -1637,26 +1637,41 @@
         }
 
         function showRewardModal(item) {
+            if (!item) return;
+
             const modal = document.getElementById('modal-result');
             const card = document.getElementById('reward-card');
             const badge = document.getElementById('reward-rarity');
+            const avatar = document.getElementById('reward-avatar');
             const title = document.getElementById('reward-title');
             const sub = document.getElementById('reward-sub');
 
-            badge.textContent = item.rarity;
-            badge.style.background = item.color;
-            badge.style.color = item.rarity === "Special" ? "#000" : "#fff";
+            if (!modal) return;
 
-            card.style.borderColor = item.color;
-            card.style.boxShadow = `0 0 25px ${item.color}66`;
+            const itemColor = item.color || '#e5a93b';
+            const itemRarity = item.rarity || 'Vật phẩm';
 
-            document.getElementById('reward-avatar').innerHTML = item.icon;
-            title.textContent = item.name;
-            title.style.color = item.color;
-            sub.textContent = item.sub || '';
+         if (badge) {
+            badge.textContent = itemRarity;
+            badge.style.background = itemColor;
+            badge.style.color = (itemRarity === "Special" || itemColor === "#ffd700") ? "#000" : "#fff";
+    }
 
-            modal.style.display = 'flex';
-        }
+        if (card) {
+            card.style.borderColor = itemColor;
+            card.style.boxShadow = `0 0 25px ${itemColor}66`;
+    }
+
+        if (avatar) avatar.innerHTML = item.icon || '🎁';
+        if (title) {
+            title.textContent = item.name || 'Nhân vật';
+            title.style.color = itemColor;
+    }
+        if (sub) sub.textContent = item.sub || '';
+
+    // Hiển thị bảng kết quả
+        modal.style.display = 'flex';
+}
 
         function renderInventory() {
             const grid = document.getElementById('inventory-grid');
