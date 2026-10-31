@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- BẢN CHẨN ĐOÁN TẠM THỜI: chỉ thay thông báo đăng nhập để hiện mã lỗi Firebase thật, không đổi logic khác -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -326,9 +325,32 @@
             100% { transform: rotate(0deg) scale(1.05); }
         }
 
-        .secret-arena {
-            border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 10px;
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-secret-tab {
+            background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
+            border: 2px solid #a78bfa;
+            border-radius: 20px;
+            padding: 5px 12px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #3b0764;
+            white-space: nowrap;
+        }
+        .btn-secret-tab:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3b0764;
+        }
+        .btn-secret-tab.chroma-mode {
+            background: linear-gradient(180deg, #62b132 0%, #448c1a 100%);
+            border-color: #82e240;
+            box-shadow: 0 4px 0 #285410;
         }
         .secret-arena .case-name {
             color: #c4b5fd;
@@ -935,11 +957,14 @@
         <div id="screen-game">
             <div class="hud-header">
                 <button class="btn-icon" id="btn-back">⬅</button>
-                <div class="title-badge">CHROMA CASE OPENING</div>
+                <div class="header-center">
+                    <div class="title-badge" id="title-badge">CHROMA CASE OPENING</div>
+                    <button class="btn-secret-tab" id="btn-toggle-box">SECRET BOX</button>
+                </div>
                 <button class="btn-icon" id="btn-inventory">🎒</button>
             </div>
 
-            <div class="csgo-case-arena">
+            <div class="csgo-case-arena" id="arena-main">
                 <div class="case-preview-box" id="case-preview-box">
                     <div class="case-icon" id="case-icon">📦</div>
                     <div class="case-name">NHÂN VẬT HÔM NAY</div>
@@ -967,7 +992,7 @@
                 </div>
             </div>
 
-            <div class="csgo-case-arena secret-arena">
+            <div class="csgo-case-arena secret-arena" id="arena-secret" style="display: none;">
                 <div class="case-preview-box" id="case-preview-box-secret">
                     <div class="case-icon" id="case-icon-secret">🔮</div>
                     <div class="case-name">Secret Box</div>
@@ -1962,8 +1987,7 @@
                         document.getElementById('status-hint').textContent = "Nhấn nút để bắt đầu mở hòm!";
                     }
                 } catch(error) {
-                    console.error("Lỗi đăng nhập chi tiết:", error);
-                    showToast(`Lỗi đăng nhập: ${error.code || 'unknown'}`);
+                    showToast("Tên tài khoản hoặc mật khẩu không chính xác!");
                 }
             });
 
@@ -1989,10 +2013,37 @@
                 document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
             }
 
+            // CHUYỂN ĐỔI CHROMA / SECRET BOX: chỉ hiện 1 khu quay toàn màn hình tại 1 thời điểm
+            const titleBadge = document.getElementById('title-badge');
+            const toggleBoxBtn = document.getElementById('btn-toggle-box');
+            const arenaMain = document.getElementById('arena-main');
+            const arenaSecret = document.getElementById('arena-secret');
+            let currentBox = 'chroma';
+            function setBoxMode(mode) {
+                if (mode === currentBox) return;
+                currentBox = mode;
+                const isSecret = mode === 'secret';
+                arenaMain.style.display = isSecret ? 'none' : 'flex';
+                arenaSecret.style.display = isSecret ? 'flex' : 'none';
+                titleBadge.textContent = isSecret ? 'SECRET BOX' : 'CHROMA CASE OPENING';
+                toggleBoxBtn.textContent = isSecret ? 'CHROMA' : 'SECRET BOX';
+                toggleBoxBtn.classList.toggle('chroma-mode', !isSecret);
+                resetCaseView();
+            }
+            toggleBoxBtn.addEventListener('click', () => {
+                sound.playPop();
+                if (isSpinning) {
+                    showToast("Đang quay, vui lòng đợi quay xong!");
+                    return;
+                }
+                setBoxMode(currentBox === 'chroma' ? 'secret' : 'chroma');
+            });
+
             document.getElementById('btn-play').addEventListener('click', () => {
                 sound.playPop();
                 screenTitle.style.display = 'none';
                 screenGame.style.display = 'flex';
+                setBoxMode('chroma');
                 resetCaseView();
             });
 
@@ -2000,6 +2051,7 @@
                 sound.playPop();
                 screenGame.style.display = 'none';
                 screenTitle.style.display = 'block';
+                setBoxMode('chroma');
                 resetCaseView();
             });
 
