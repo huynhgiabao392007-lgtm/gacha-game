@@ -2153,8 +2153,7 @@
   function updateChibiEyes() {
     var active = document.activeElement;
     var isPassword = active && (active.id === 'login-password' || active.id === 'reg-password');
-    var shouldClose = !!(isPassword && active.value && active.value.length > 0);
-    var nextSrc = shouldClose ? closedSrc : openSrc;
+    var nextSrc = isPassword ? closedSrc : openSrc;
     if (chibiImg.src !== nextSrc) chibiImg.src = nextSrc;
   }
   ['login-password', 'reg-password'].forEach(function (id) {
@@ -2163,7 +2162,11 @@
     input.addEventListener('focus', updateChibiEyes);
     input.addEventListener('blur', updateChibiEyes);
     input.addEventListener('input', updateChibiEyes);
+    input.addEventListener('change', updateChibiEyes);
+    input.addEventListener('click', updateChibiEyes);
   });
+  document.addEventListener('focusin', updateChibiEyes);
+  document.addEventListener('focusout', function () { setTimeout(updateChibiEyes, 0); });
 })();
 </script>
 </body>
