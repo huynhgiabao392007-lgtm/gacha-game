@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- BẢN CHẨN ĐOÁN TẠM THỜI: chỉ thay thông báo đăng nhập để hiện mã lỗi Firebase thật, không đổi logic khác -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -1961,7 +1962,8 @@
                         document.getElementById('status-hint').textContent = "Nhấn nút để bắt đầu mở hòm!";
                     }
                 } catch(error) {
-                    showToast("Tên tài khoản hoặc mật khẩu không chính xác!");
+                    console.error("Lỗi đăng nhập chi tiết:", error);
+                    showToast(`Lỗi đăng nhập: ${error.code || 'unknown'}`);
                 }
             });
 
