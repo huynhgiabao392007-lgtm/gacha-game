@@ -235,6 +235,7 @@
             inset: 0;
             display: none;
             flex-direction: column;
+            overflow-y: auto;
             background: radial-gradient(circle at 50% 20%, #1e2433 0%, #0d1017 100%);
             z-index: 30;
             padding: 14px 16px;
@@ -322,6 +323,19 @@
             50% { transform: rotate(0deg) scale(1.05); }
             75% { transform: rotate(5deg) scale(1.08); }
             100% { transform: rotate(0deg) scale(1.05); }
+        }
+
+        .secret-arena {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 10px;
+        }
+        .secret-arena .case-name {
+            color: #c4b5fd;
+        }
+        .secret-arena .btn-cs-open {
+            background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
+            border-color: #a78bfa;
+            box-shadow: 0 5px 0 #3b0764, 0 10px 20px rgba(0,0,0,0.5);
         }
 
         .case-name {
@@ -951,6 +965,34 @@
                     </div>
                 </div>
             </div>
+
+            <div class="csgo-case-arena secret-arena">
+                <div class="case-preview-box" id="case-preview-box-secret">
+                    <div class="case-icon" id="case-icon-secret">🔮</div>
+                    <div class="case-name">Secret Box</div>
+                    <div class="case-loot-preview" id="case-loot-preview-secret">
+                        <div class="loot-dot" style="background:#ffd700;" title="Special ★"></div>
+                        <div class="loot-dot" style="background:#eb4b4b;" title="Covert"></div>
+                        <div class="loot-dot" style="background:#d32ce6;" title="Classified"></div>
+                        <div class="loot-dot" style="background:#8847ff;" title="Restricted"></div>
+                        <div class="loot-dot" style="background:#4b69ff;" title="Mil-Spec"></div>
+                    </div>
+                </div>
+
+                <div class="roulette-viewport" id="roulette-viewport-secret">
+                    <div class="center-marker"></div>
+                    <div class="roulette-track" id="roulette-track-secret"></div>
+                </div>
+
+                <div class="action-container">
+                    <button class="btn-cs-open" id="btn-open-secret-box">
+                        <span>MỞ SECRET BOX</span>
+                    </button>
+                    <div id="status-hint-secret" style="margin-top: 10px; font-size: 13px; color: #94a3b8; font-weight: 800; text-align: center;">
+                        Nhấn nút để bắt đầu mở Secret Box!
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- MODAL TÀI KHOẢN -->
@@ -1089,7 +1131,7 @@
     <script>
         // CẤU HÌNH FIREBASE DỰ ÁN GACHAFORYOURLIFE
         const firebaseConfig = {
-            apiKey: "AIzaSyCy9IueyecetHMmV5f7GL_ZjBTkIKrMTC0",
+            apiKey: "<redacted>",
             authDomain: "gachaforyourlife.firebaseapp.com",
             projectId: "gachaforyourlife",
             storageBucket: "gachaforyourlife.firebasestorage.app",
@@ -1534,7 +1576,7 @@
             return div;
         }
 
-        function startCaseOpening() {
+        function startCaseOpening(box = {}) {
             if (isSpinning) return;
 
             const winningSkin = rollWinningSkin();
@@ -1545,17 +1587,20 @@
 
             isSpinning = true;
             document.getElementById('btn-open-case').disabled = true;
+            document.getElementById('btn-open-secret-box').disabled = true;
 
-            const caseBox = document.getElementById('case-preview-box');
-            const caseIcon = document.getElementById('case-icon');
-            const rouletteViewport = document.getElementById('roulette-viewport');
-            const track = document.getElementById('roulette-track');
+            const caseBox = document.getElementById(box.caseBoxId || 'case-preview-box');
+            const caseIcon = document.getElementById(box.caseIconId || 'case-icon');
+            const rouletteViewport = document.getElementById(box.viewportId || 'roulette-viewport');
+            const track = document.getElementById(box.trackId || 'roulette-track');
+            const statusHint = document.getElementById(box.statusHintId || 'status-hint');
+            const openIcon = box.openIcon || "🔓";
 
             caseIcon.classList.add('case-shaking');
 
             setTimeout(() => {
                 caseIcon.classList.remove('case-shaking');
-                caseIcon.textContent = "🔓";
+                caseIcon.textContent = openIcon;
                 caseBox.classList.add('spinning-mode');
 
                 rouletteViewport.classList.add('active');
@@ -1611,6 +1656,7 @@
                 setTimeout(() => {
                     isSpinning = false;
                     document.getElementById('btn-open-case').disabled = false;
+                    document.getElementById('btn-open-secret-box').disabled = false;
 
                     gameState.totalSpins = (gameState.totalSpins || 0) + 1;
                     gameState.inventory.push(winningSkin);
@@ -1624,8 +1670,8 @@
 
                     showRewardModal(winningSkin);
 
-                    if (getAvailablePool().length === 0) {
-                        document.getElementById('status-hint').textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
+                    if (getAvailablePool().length === 0 && statusHint) {
+                        statusHint.textContent = "Đã thu thập trọn bộ toàn bộ nhân vật!";
                     }
                 }, 6100);
 
@@ -1633,13 +1679,19 @@
         }
 
         function resetCaseView() {
-            const rouletteViewport = document.getElementById('roulette-viewport');
-            const caseBox = document.getElementById('case-preview-box');
-            const caseIcon = document.getElementById('case-icon');
-
-            rouletteViewport.classList.remove('active');
-            caseBox.classList.remove('spinning-mode');
-            caseIcon.textContent = "📦";
+            const boxes = [
+                { viewportId: 'roulette-viewport', caseBoxId: 'case-preview-box', caseIconId: 'case-icon', closedIcon: "📦" },
+                { viewportId: 'roulette-viewport-secret', caseBoxId: 'case-preview-box-secret', caseIconId: 'case-icon-secret', closedIcon: "🔮" },
+            ];
+            boxes.forEach((box) => {
+                const rouletteViewport = document.getElementById(box.viewportId);
+                const caseBox = document.getElementById(box.caseBoxId);
+                const caseIcon = document.getElementById(box.caseIconId);
+                if (!rouletteViewport || !caseBox || !caseIcon) return;
+                rouletteViewport.classList.remove('active');
+                caseBox.classList.remove('spinning-mode');
+                caseIcon.textContent = box.closedIcon;
+            });
         }
 
         // HÀM HIỂN THỊ BẢNG PHẦN THƯỞNG AN TOÀN TUYỆT ĐỐI
@@ -1952,6 +2004,18 @@
             document.getElementById('btn-open-case').addEventListener('click', () => {
                 sound.init();
                 startCaseOpening();
+            });
+
+            document.getElementById('btn-open-secret-box').addEventListener('click', () => {
+                sound.init();
+                startCaseOpening({
+                    caseBoxId: 'case-preview-box-secret',
+                    caseIconId: 'case-icon-secret',
+                    viewportId: 'roulette-viewport-secret',
+                    trackId: 'roulette-track-secret',
+                    statusHintId: 'status-hint-secret',
+                    openIcon: "🔓",
+                });
             });
 
             document.getElementById('btn-close-result').addEventListener('click', () => {
